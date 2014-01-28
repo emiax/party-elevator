@@ -1,7 +1,7 @@
 {
-   "name": "party-elevator",
+   "name": "party-elevator-server",
    "version": "0.7.0",
-   "description": "Sample package for CommonJS. This package demonstrates the required elements of a CommonJS package.",
+   "description": "party-elevator server",
    "keywords": [
        "party",
        "elevator",
