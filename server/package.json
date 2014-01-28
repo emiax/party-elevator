@@ -1,0 +1,20 @@
+{
+   "name": "party-elevator",
+   "version": "0.7.0",
+   "description": "Sample package for CommonJS. This package demonstrates the required elements of a CommonJS package.",
+   "keywords": [
+       "party",
+       "elevator",
+       "server"
+   ],
+   "repositories": [
+       {
+           "type": "git",
+           "url": "https://github.com/emiax/party-elevator" 
+       } 
+   ],
+   "dependencies": {
+       "express": "*",
+       "socket.io": "*"
+   }
+}

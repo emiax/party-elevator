@@ -1,0 +1,22 @@
+{
+  "name": "party-elevator",
+  "version": "0.0.1",
+  "homepage": "https://github.com/emiax/party-elevator",
+  "description": "A party elevator",
+  "keywords": [
+    "party",
+    "elevator"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+      "requirejs": "~2.1.10",
+      "jquery": "*"
+  }
+}
