@@ -27,13 +27,13 @@ require(['socket.io', 'jquery'], function (io, $) {
 
                 if (attendeeExists != true){
 
-                    console.log("x: " + keyframe.state.x + "; y: " + keyframe.state.y + ";");
+                    console.log("x: " + data.keyframes[0].state.x + "; y: " + data.keyframes[0].state.y + ";");
                     
                     // Add new attendee representation to the canvas
                     // TODO: Add attendee ID to each representation
                     ctx.beginPath();
                     ctx.fillStyle = "rgba(" + Math.round(Math.random() * 300) + "," + Math.round(Math.random() * 300) + "," + Math.round(Math.random() * 300) + ",1)";
-                    ctx.arc(keyframe.state.x,keyframe.state.y,5,0,2*Math.PI);
+                    ctx.arc(data.keyframes[0].state.x,data.keyframes[0].state.y,5,0,2*Math.PI);
                     ctx.stroke();
                     ctx.fill();
                 }
