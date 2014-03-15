@@ -32,7 +32,7 @@ require(['socket.io', 'jquery'], function (io, $) {
                     // Add new attendee representation to the canvas
                     // TODO: Add attendee ID to each representation
                     ctx.beginPath();
-                    ctx.fillStyle = "rgba(" + Math.round(Math.random() * 300) + "," + Math.round(Math.random() * 300) + "," + Math.round(Math.random() * 300) + ",1)";
+                    ctx.fillStyle = "rgba(" + Math.round(Math.random() * 1024) + "," + Math.round(Math.random() * 1024) + "," + Math.round(Math.random() * 1024) + ",1)";
                     ctx.arc(data.keyframes[0].state.x,data.keyframes[0].state.y,5,0,2*Math.PI);
                     ctx.stroke();
                     ctx.fill();
@@ -46,8 +46,8 @@ require(['socket.io', 'jquery'], function (io, $) {
     });
 
     socket.emit('intention', {
-        x: Math.round(Math.random() * 300),
-        y: Math.round(Math.random() * 225),
+        x: Math.round(Math.random() * 1024),
+        y: Math.round(Math.random() * 768),
         level: 'ground'
     });
 
@@ -55,5 +55,5 @@ require(['socket.io', 'jquery'], function (io, $) {
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     ctx.fillStyle = "#e5e5e5";
-    ctx.fillRect(0,0,300,225);
+    ctx.fillRect(0,0,1024,768);
 });
