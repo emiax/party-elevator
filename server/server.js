@@ -11,10 +11,8 @@ var app = express()
 
 server.listen(8081);
 
-
 var defaultState = new State();
 var sockets = {};
-
 
 io.sockets.on('connection', function (socket) {
     
