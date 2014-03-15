@@ -45,4 +45,3 @@ setTimeout(function () {
 setInterval(function () {
     console.log(attendee.currentState().toString());
 }, 100);
-
