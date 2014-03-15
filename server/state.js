@@ -1,10 +1,33 @@
 function State(spec) {
+    spec = spec || {};
     this._x = spec.x || 0;
     this._y = spec.y || 0;
     this._level = spec.level || State.LevelEnum.GROUND;
 }
 
 
+/**
+ * To client format
+ */
+State.prototype.toClientFormat = function () {
+    var level;
+
+    switch (this._level) {
+        case State.LevelEnum.GROUND: level = "ground"; break;
+        case State.LevelEnum.ELEVATOR: level = "elevator"; break;
+        case State.LevelEnum.TOP: level = "top"; break;
+    }
+
+    return {
+        x: this._x,
+        y: this._y,
+        level: level
+    };
+}
+
+/**
+ * To string
+ */
 State.prototype.toString = function () {
     var s = 'State: (' + this._x + ", " + this._y + ')';
     switch (this._level) {

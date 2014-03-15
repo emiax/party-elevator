@@ -3,22 +3,52 @@ var io = require('socket.io');
 
 var Attendee = require('./attendee');
 var State = require('./state');
+var party = require('./party');
 
 var app = express()
 , server = require('http').createServer(app)
 , io = io.listen(server);
 
-server.listen(8081);
+server.listen(8080);
+
+var defaultState = new State();
+var sockets = {};
 
 io.sockets.on('connection', function (socket) {
-    socket.emit('news', { hello: 'world' });
-    socket.on('getAll', function (data) {
-        console.log(data);
-        socket.emit('test');
+
+    var attendee = new Attendee(defaultState);
+    party.addAttendee(attendee);
+    sockets[attendee.id()] = socket;
+
+    //    socket.emit('allStates', party.allStates());
+    socket.on('intention', function (data) {
+        // handle input.
+        var x = data.x;
+        var y = data.y;
+        var level;
+        switch (data.level) {
+        case 'top': level = State.LevelEnum.TOP;
+        case 'elevator': level = State.LevelEnum.ELEVATOR;
+        default: level = State.LevelEnum.GROUND;
+        }
+
+        // do stuff.
+        party.setIntention(attendee, new State({
+            x: x,
+            y: y,
+            level: level
+        }));
+
+        // send updates to clients.
+        Object.keys(sockets).forEach(function (attendeeId) {
+            var outputSocket = sockets[attendeeId];
+            outputSocket.emit('attendeeKeyframes', attendee.toClientFormat());
+        })
     });
 });
 
 
+/*
 var attendee = new Attendee(new State({
     x: 0,
     y: 0,
@@ -29,7 +59,7 @@ var attendee = new Attendee(new State({
 attendee.setIntention(new State({
     x: 1000,
     y: 800,
-    level: State.LevelEnum.GROUND    
+    level: State.LevelEnum.GROUND
 }));
 
 
@@ -37,11 +67,7 @@ setTimeout(function () {
     attendee.setIntention(new State({
         x: 0,
         y: 0,
-        level: State.LevelEnum.GROUND    
+        level: State.LevelEnum.GROUND
     }));
 }, 500);
-
-
-setInterval(function () {
-    console.log(attendee.currentState().toString());
-}, 100);
+*/
