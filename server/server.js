@@ -9,7 +9,7 @@ var app = express()
 , server = require('http').createServer(app)
 , io = io.listen(server);
 
-server.listen(8080);
+server.listen(8081);
 
 var defaultState = new State();
 var sockets = {};
