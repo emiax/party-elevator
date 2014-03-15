@@ -17,27 +17,3 @@
   </style>
 </body>
 </html>
-<script>
-   var c = document.getElementById("myCanvas");
-
-   var ctx = c.getContext("2d");
-
-   ctx.beginPath();
-   ctx.arc(200,150,10,0,2*Math.PI);
-   ctx.fillStyle = 'yellow';
-   ctx.fill();
-   ctx.lineWidth = 5;
-   ctx.strokeStyle = 'green';
-   ctx.stroke();
-
-   ctx.beginPath();
-   ctx.arc(550,150,10,0,2*Math.PI);
-   ctx.fillStyle = 'yellow';
-   ctx.fill();
-   ctx.lineWidth = 5;
-   ctx.strokeStyle = 'blue';
-   ctx.stroke();
-
-   var img = document.getElementsByTagName('img')[0];
-   img.src = can.toDataURL();
-</script>
