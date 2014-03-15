@@ -1,8 +1,10 @@
+require('elevator');
+
 Party = {
     
     attendees: {},
 
-    elevator: null,
+    elevator: new Elevator(),
 
 
     setIntention: function (attendee, intention) {
