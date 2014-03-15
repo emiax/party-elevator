@@ -1,8 +1,8 @@
+var Elevator = require('./elevator');
+
 Party = {
     
     attendees: {},
-
-    elevator: null,
 
 
     setIntention: function (attendee, intention) {

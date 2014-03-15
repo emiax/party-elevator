@@ -9,7 +9,7 @@ var app = express()
 , server = require('http').createServer(app)
 , io = io.listen(server);
 
-server.listen(8080);
+server.listen(8081);
 
 var defaultState = new State();
 var sockets = {};
@@ -47,27 +47,3 @@ io.sockets.on('connection', function (socket) {
     });
 });
 
-
-/*
-var attendee = new Attendee(new State({
-    x: 0,
-    y: 0,
-    level: State.LevelEnum.GROUND
-}));
-
-
-attendee.setIntention(new State({
-    x: 1000,
-    y: 800,
-    level: State.LevelEnum.GROUND
-}));
-
-
-setTimeout(function () {
-    attendee.setIntention(new State({
-        x: 0,
-        y: 0,
-        level: State.LevelEnum.GROUND
-    }));
-}, 500);
-*/
