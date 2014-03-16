@@ -6,15 +6,39 @@ requirejs.config({
 });
 
 
-require(['socket.io'], function (io) {
+require(['socket.io', 'jquery'], function (io, $) {
 
-    var socket = this._socket = io.connect('http://localhost:8081');
+    var socket = io.connect('http://localhost:8081');
 
     socket.on('connect', function () {
         console.log("socket connected");
     });
     socket.on('attendeeKeyframes', function (data) {
+        
+        // Log socket messages
         console.log(data);
+
+        // Do something with the data
+        if (data.keyframes !== undefined){
+            if(data.keyframes.length > 0){
+
+                // TODO: Check if attendee representation exists, if not, add it
+                var attendeeExists = false;
+
+                if (attendeeExists != true){
+
+                    console.log("x: " + data.keyframes[0].state.x + "; y: " + data.keyframes[0].state.y + ";");
+                    
+                    // Add new attendee representation to the canvas
+                    // TODO: Add attendee ID to each representation
+                    ctx.beginPath();
+                    ctx.fillStyle = "rgba(" + Math.round(Math.random() * 1024) + "," + Math.round(Math.random() * 1024) + "," + Math.round(Math.random() * 1024) + ",1)";
+                    ctx.arc(data.keyframes[0].state.x,data.keyframes[0].state.y,5,0,2*Math.PI);
+                    ctx.stroke();
+                    ctx.fill();
+                }
+            };         
+        }
     });
 
     socket.on('disconnect', function () {
@@ -22,8 +46,14 @@ require(['socket.io'], function (io) {
     });
 
     socket.emit('intention', {
-        x: 1000,
-        y: 0,
+        x: Math.round(Math.random() * 1024),
+        y: Math.round(Math.random() * 768),
         level: 'ground'
     });
+
+    // Add canvas
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    ctx.fillStyle = "#e5e5e5";
+    ctx.fillRect(0,0,1024,768);
 });

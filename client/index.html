@@ -5,19 +5,15 @@
   <title>Party elevator</title>
 </head>
 <body>
-  <canvas id="myCanvas" width="300" height="225"></canvas>
+  <canvas id="myCanvas" width="1024" height="768"></canvas>
   <script src="bower_components/requirejs/require.js"></script>
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="js/main.js"></script>
+  <style>
+     canvas {
+        background:url(img/map.png);
+        background-repeat:no-repeat;
+     }
+  </style>
 </body>
 </html>
-<script>
-   var c = document.getElementById("myCanvas");
-   var ctx = c.getContext("2d");
-   ctx.fillStyle = "#e5e5e5";
-   ctx.fillRect(0,0,1024,600);
-
-   ctx.beginPath();
-   ctx.arc(95,50,5,0,2*Math.PI);
-   ctx.stroke();
-</script>
