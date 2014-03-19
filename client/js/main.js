@@ -1,10 +1,10 @@
 requirejs.config({
     baseUrl: './js/',
     paths: {
-        'socket.io': '../bower_components/socket.io-client/dist/socket.io'
+        'socket.io': '../bower_components/socket.io-client/dist/socket.io',
+        'jquery': '../bower_components/jquery/dist/jquery.min'
     }
 });
-
 
 require(['socket.io', 'jquery'], function (io, $) {
 
@@ -13,6 +13,7 @@ require(['socket.io', 'jquery'], function (io, $) {
     socket.on('connect', function () {
         console.log("socket connected");
     });
+
     socket.on('attendeeKeyframes', function (data) {
         
         // Log socket messages
