@@ -9,7 +9,11 @@ var app = express()
 , server = require('http').createServer(app)
 , io = io.listen(server);
 
-server.listen(8081);
+var HOSTNAME = "127.0.0.1";
+var PORT = 8081;
+
+server.listen(PORT, HOSTNAME);
+console.log("Server started on " + HOSTNAME + " lisening to " + PORT);
 
 var defaultState = new State();
 var sockets = {};
