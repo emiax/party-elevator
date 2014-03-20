@@ -1,6 +1,28 @@
 var Keyframe = require('./keyframe');
+var ElevatorKeyframe = require('./elevatorKeyframe');
+
+var GraphImporter = require('./pathfinding/graphImporter');
 
 Pathfinder = {
+
+    loadMap: function (cb) {
+        var graph = GraphImporter.importGraph('someFile');
+        this.map = graph;
+    },
+
+
+    dumpMap: function () {
+        console.log(this.map);
+    },
+
+
+    isWall: function (x, y) {
+        return map[y][x];
+    },
+
+
+    
+
     /**
      * Create keyframes.
      */
