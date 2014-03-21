@@ -20,6 +20,18 @@ var Graph = function (triangles) {
             var t1 = triangleArray[1];
             t0.neighbors[edgeString] = t1;
             t1.neighbors[edgeString] = t0;
+        } else if (triangleArray.length > 2) {
+                throw "More than two triangles sharing the same edge.";
+        }
+    });
+
+    triangles.forEach(function (t) {
+        var nNeighbors = Object.keys(t.neighbors).length;
+        if (nNeighbors === 0) {
+            throw "Dangling triangle."
+        }
+        if (nNeighbors > 3) {
+            throw "Triangle detected with more than 3 neighbors."
         }
     });
 }

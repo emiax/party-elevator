@@ -27,6 +27,7 @@ PolygonVertex.prototype.isEar = function () {
     }
 
     return !potentialEar.clockwise();
+
 }
 
 
@@ -34,7 +35,7 @@ PolygonVertex.prototype.isEar = function () {
  * To string
  */
 PolygonVertex.prototype.toString = function () {
-    return "PolygonVertex: {" + this.point.toString() + "}";
+    return "PolygonVertex : {" + this.point.toString() + "}";
 }
 
 module.exports = PolygonVertex;

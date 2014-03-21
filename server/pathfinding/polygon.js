@@ -19,33 +19,10 @@ var Polygon = function (points) {
     var firstTail = points.length - 1;
     var secondTail = points.length - 2;
 
-    function angle(p0, p1, p2) {
-        var e0 = p1.sub(p0);
-        var e1 = p2.sub(p1);
-        var diff = e1.arg() - e0.arg();
-        
-        // Make sure we are in the interval [-pi, pi]
-        var pi = Math.PI;
-        diff = (diff + pi)%(2*pi) - pi;
-        
-        return diff;
-    }
-
-    var totalAngle = 0;
-    totalAngle += angle(points[firstTail], points[firstHead], points[secondHead]);
-    for (var i = secondHead; i <= secondTail; i++) {
-        totalAngle += angle(points[i - 1], points[i], points[i + 1]);
-    }
-    totalAngle += angle(points[secondTail], points[firstTail], points[firstHead]);    
-
-    if (totalAngle < 0) {
-        points.reverse();
-    }
-
     points.forEach(function (p) {
         vertices.push(new PolygonVertex(p));
     });
-
+    
     for (var i = firstHead; i <= secondTail; i++) {
         vertices[i].next = vertices[i+1];
     }
@@ -56,9 +33,32 @@ var Polygon = function (points) {
     vertices[firstTail].next = vertices[firstHead]; 
     vertices[firstHead].prev = vertices[firstTail];
 
+    var v = vertices[firstHead];
+    while (v !== vertices[firstTail]) {
+        v = v.next;
+    }
+    
     this.current = vertices[firstHead];
+    
+
+    if (this.clockwise()) {
+        throw "Polygon must be ccw."
+    }
 }
 
+
+/**
+ * Clockwise
+ */
+Polygon.prototype.clockwise = function () {
+    var ptr = this.current;
+    var doubleArea = 0;
+    do {
+        doubleArea += ptr.point.x*ptr.next.point.y - ptr.next.point.x*ptr.point.y;
+        ptr = ptr.next;
+    } while (ptr !== this.current)
+    return (doubleArea < 0);
+}
 
 
 /**
@@ -86,23 +86,30 @@ Polygon.prototype.toString = function () {
  * @return {Triangle} the formed triangle.
  */
 Polygon.prototype.clipNextEar = function () {
-    var current = this.current;
+    var beginning = this.current;
+    var i = 0;
 
-    if (current.next.next === current) return null;
-    if (current.next === current) return null;
+    if (this.current.next.next === this.current) return null;
     
-    while (!current.isEar()) {
-        var prev = current.prev;
-        var next = current.next;
+    while (!this.current.isEar()) {
+        var prev = this.current.prev;
+        var next = this.current.next;
         if (prev === next) {
             return null;
         }
+        this.current = this.current.next;
+        i++;
+        if (this.current === beginning) {
+            throw "Could not clip any ear. " + i + " triangles left in polygon.";
+        }
     }
+    
+    this.current.prev.next = this.current.next;
+    this.current.next.prev = this.current.prev;
 
-    current.prev.next = current.next;
-    current.next.prev = current.prev;
-    this.current = current.next;
-    return new Triangle(current.prev.point, current.point, current.next.point);
+    var tri = new Triangle(this.current.prev.point, this.current.point, this.current.next.point);
+    this.current = this.current.next;
+    return tri;
 }
 
 
