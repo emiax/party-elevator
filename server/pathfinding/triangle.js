@@ -4,14 +4,14 @@ var tId = 0;
 /**
  * Construct a new triangle.
  */
-function Triangle(v0, v1, v2) {
-    this.v0 = v0;
-    this.v1 = v1;
-    this.v2 = v2;
+function Triangle(p0, p1, p2) {
+    this.p0 = p0;
+    this.p1 = p1;
+    this.p2 = p2;
     this.edges = [
-        new Edge(this.v0, this.v1),
-        new Edge(this.v1, this.v2),
-        new Edge(this.v2, this.v0)
+        new Edge(this.p0, this.p1),
+        new Edge(this.p1, this.p2),
+        new Edge(this.p2, this.p0)
     ];
     this.neighbors = {};
     this.id = tId++;
@@ -23,6 +23,27 @@ function Triangle(v0, v1, v2) {
  */
 Triangle.prototype.stringify = function () {
     return this.id;
+}
+
+
+
+/**
+ * Convert to string, used for key in maps.
+ */
+Triangle.prototype.toClientFormat = function () {
+    return {
+        p0: this.p0.toClientFormat(),
+        p1: this.p1.toClientFormat(),
+        p2: this.p2.toClientFormat()
+    };
+}
+
+
+/**
+ * Convert to a human readable string
+ */
+Triangle.prototype.toString = function () {
+    return "Triangle {" + this.p0.toString() + ", " + this.p1.toString() + ", " + this.p2.toString() + "}";
 }
 
 
@@ -39,7 +60,7 @@ function sign(p0, p1, p2)
  * Return true if the points of this triangle are stored in clockwise order.
  */
 Triangle.prototype.clockwise = function () {
-    return sign(this.v0, this.v1, this.v2) < 0;
+    return sign(this.p0, this.p1, this.p2) <= 0;
 }
 
 /**
@@ -47,18 +68,36 @@ Triangle.prototype.clockwise = function () {
  * @param {Vector} point
  */
 Triangle.prototype.containsPoint = function (point) {
-  var b0, b1, b1, v0 = this.v0, v1 = this.v1, v2 = this.v2;
-  b0 = sign(point, v0, v1) < 0;
-  b1 = sign(point, v1, v2) < 0;
-  b2 = sign(point, v2, v0) < 0;
+  //console.log("is " + point.toString() + " contained by " + this.toString());
+  var b0, b1, b1, p0 = this.p0, p1 = this.p1, p2 = this.p2;
+  b0 = sign(point, p0, p1) < 0;
+  b1 = sign(point, p1, p2) < 0;
+  b2 = sign(point, p2, p0) < 0;
   return ((b0 === b1) && (b1 === b2));
+}
+
+
+/**
+ * Return the edge that this triangle share with the other triangle.
+ * Return null if no such edge exists.
+ */
+Triangle.prototype.getCommonEdge = function (other) {
+    var edge = null;
+    this.edges.forEach(function (thisEdge) {
+        other.edges.forEach(function (otherEdge) {
+            if (edge) return;
+            if (thisEdge.equals(otherEdge)) {
+                edge = thisEdge;
+            }
+        })
+    });
+    return edge;
 }
 
 
 
 /**
- * Return a list of triangles that has to be traversed to reach goal.
- * Both this and goal are included in the list.
+ * Return a list of edges that have to be crossed in order to reach the goal.
  */
 Triangle.prototype.shortestPathToTriangle = function (goal) {
     var distances = {};
@@ -72,6 +111,7 @@ Triangle.prototype.shortestPathToTriangle = function (goal) {
     distances[startString] = 0;
     
     while (distances[goalString] === undefined) {
+        // find the closest triangle to the start.
         var closest = null;
         Object.keys(distances).forEach(function (triString) {
             var tri = visited[triString];
@@ -95,13 +135,18 @@ Triangle.prototype.shortestPathToTriangle = function (goal) {
     }
 
     var distance = distances[goalString];
-    var path = new Array(distance);
-    var current = goal;
-    for (var i = distance; i >= 0; i--) {
-        path[i] = current;
-        current = previous[current.stringify()];
+    if (distance > 0) {
+        var path = new Array(distance - 1);
+        var current = goal;
+        for (var i = distance-1; i >= 0; i--) {
+            var prev = previous[current.stringify()];
+            path[i] = current.getCommonEdge(prev);
+            current = previous[current.stringify()];
+        }
+        return path;
+    } else {
+        return [];
     }
-    return path;
 }
 
 

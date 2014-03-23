@@ -90,13 +90,8 @@ Polygon.prototype.clipNextEar = function () {
     var i = 0;
 
     if (this.current.next.next === this.current) return null;
-    
+
     while (!this.current.isEar()) {
-        var prev = this.current.prev;
-        var next = this.current.next;
-        if (prev === next) {
-            return null;
-        }
         this.current = this.current.next;
         i++;
         if (this.current === beginning) {
@@ -108,7 +103,7 @@ Polygon.prototype.clipNextEar = function () {
     this.current.next.prev = this.current.prev;
 
     var tri = new Triangle(this.current.prev.point, this.current.point, this.current.next.point);
-    this.current = this.current.next;
+    this.current = this.current.prev;
     return tri;
 }
 
@@ -119,6 +114,7 @@ Polygon.prototype.clipNextEar = function () {
  */
 Polygon.prototype.triangulate = function () {
     var t, triangles = [];
+    
     while (t = this.clipNextEar()) {
         triangles.push(t);
     }

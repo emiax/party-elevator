@@ -4,6 +4,7 @@ var io = require('socket.io');
 var Attendee = require('./attendee');
 var State = require('./state');
 var party = require('./party');
+var Pathfinder = require('./pathfinder');
 
 var app = express()
 , server = require('http').createServer(app)
@@ -15,12 +16,17 @@ var PORT = 8081;
 server.listen(PORT, HOSTNAME);
 console.log("Server started on " + HOSTNAME + " lisening to " + PORT);
 
-var defaultState = new State();
+var defaultState = new State({
+    x: 90,
+    y: 40
+});
 var sockets = {};
 
 Pathfinder.loadMap(function () {
     io.sockets.on('connection', function (socket) {
-
+        
+        console.log("new connection");
+        
         var attendee = new Attendee(defaultState);
         party.addAttendee(attendee);
         sockets[attendee.id()] = socket;
@@ -46,8 +52,18 @@ Pathfinder.loadMap(function () {
 
             // send updates to clients.
             Object.keys(sockets).forEach(function (attendeeId) {
-                var outputSocket = sockets[attendeeId];
+
+                var outputSocket = sockets[attendeeId]
+
+
+                var tris = [];
+                Pathfinder.triangles().forEach(function (tri) {
+                    tris.push(tri.toClientFormat());
+                });
+                outputSocket.emit('drawTriangles', tris);
+
                 outputSocket.emit('attendeeKeyframes', attendee.toClientFormat());
+
             })
         });
     });

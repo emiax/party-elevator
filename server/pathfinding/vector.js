@@ -4,6 +4,13 @@ function Vector(x, y) {
 }
 
 
+Vector.prototype.toClientFormat = function () {
+    return {
+        x: this.x,
+        y: this.y
+    };
+}
+
 /**
  * Return true if this is lexiographically smaller than other vector
  * @param {Vector} other

@@ -13,9 +13,9 @@ State.prototype.toClientFormat = function () {
     var level;
 
     switch (this._level) {
-        case State.LevelEnum.GROUND: level = "ground"; break;
-        case State.LevelEnum.ELEVATOR: level = "elevator"; break;
-        case State.LevelEnum.TOP: level = "top"; break;
+    case State.LevelEnum.GROUND: level = "ground"; break;
+    case State.LevelEnum.ELEVATOR: level = "elevator"; break;
+    case State.LevelEnum.TOP: level = "top"; break;
     }
 
     return {
@@ -31,9 +31,9 @@ State.prototype.toClientFormat = function () {
 State.prototype.toString = function () {
     var s = 'State: (' + this._x + ", " + this._y + ')';
     switch (this._level) {
-        case State.LevelEnum.GROUND: s += " on ground"; break;
-        case State.LevelEnum.ELEVATOR: s += " in elevator"; break;
-        case State.LevelEnum.TOP: s += " on top floor"; break;
+    case State.LevelEnum.GROUND: s += " on ground"; break;
+    case State.LevelEnum.ELEVATOR: s += " in elevator"; break;
+    case State.LevelEnum.TOP: s += " on top floor"; break;
     }
     return s;
 }
@@ -55,7 +55,7 @@ State.prototype.distanceTo = function (other) {
 State.LevelEnum = {
     GROUND: 0,
     ELEVATOR: 1,
-    TOP: 2 
+    TOP: 2
 }
 
 
@@ -76,7 +76,7 @@ State.interpolate = function (a, b, t) {
     var level = a._level;
     return new State({
         x: x,
-        y: y, 
+        y: y,
         level: level
     });
 }

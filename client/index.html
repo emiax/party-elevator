@@ -3,20 +3,12 @@
 <head>
   <meta charset="utf-8">
   <title>Party elevator</title>
+  <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
-  <canvas id="myCanvas" width="1024" height="768"></canvas>
   <script src="bower_components/requirejs/require.js" data-main="js/main.js"></script>
-  <style>
-    body {
-      text-align: center;
-    }
-    canvas {
-      margin: 20px auto;
-      border: 1px solid black;
-      background:url(img/map.png);
-      background-repeat:no-repeat;
-    } 
-  </style>
+  <div id="map"></div>
+  <canvas width="614" height="653" id="canvas"></canvas>
+  <div id="avatar"></div>
 </body>
 </html>

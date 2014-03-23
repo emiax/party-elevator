@@ -51,8 +51,13 @@ Attendee.prototype.keyframes = function () {
  * Set intention.
  */
 Attendee.prototype.setIntention = function (intentionState) {
+    console.log("NEW INTENTION: ", intentionState);
     var currentState = this.currentState();
-    this._keyframes = Pathfinder.createKeyframes(currentState, intentionState, new Date());
+
+    console.log(currentState);
+    var keyframes = Pathfinder.createKeyframes(currentState, intentionState, new Date());
+    console.log(keyframes);
+    this._keyframes = keyframes;
 }
 
 
@@ -63,9 +68,14 @@ Attendee.prototype.currentState = function () {
     var previousKeyframeIndex = this.previousKeyframeIndex();
     var previousKeyframe = this._keyframes[previousKeyframeIndex];
 
+//    console.log(previousKeyframe);
+
     var nextKeyframeIndex = previousKeyframeIndex + 1;
     if (nextKeyframeIndex < this._keyframes.length) {
         var nextKeyframe = this._keyframes[nextKeyframeIndex];
+        console.log("INERPOLATING");
+        console.log("PREV", previousKeyframe);
+        console.log("NEXT", nextKeyframe);
         return Keyframe.interpolateStates(previousKeyframe, nextKeyframe, new Date());
     } else {
         return previousKeyframe.state();
@@ -87,6 +97,7 @@ Attendee.prototype.previousKeyframeIndex = function () {
             break;
         }
     }
+    console.log("PREV KEYFRAME INDEX: " + previousKeyframeIndex);
     return previousKeyframeIndex;
 }
 

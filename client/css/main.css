@@ -1,0 +1,30 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+
+#map {
+    position: absolute;
+    width: 614px;
+    height: 653px;
+    background-image: url('../img/map3.png');
+}
+
+#avatar {
+    width: 10px;
+    height: 10px;
+    margin-left: -5px;
+    margin-right: -5x;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #f00;
+              
+}
+
+canvas {
+    position: absolute;
+    width: 614px;
+    height: 653px;
+}

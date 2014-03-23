@@ -6,55 +6,87 @@ requirejs.config({
     }
 });
 
+
+
 require(['socket.io', 'jquery'], function (io, $) {
 
     var socket = io.connect('http://localhost:8081');
+    var ctx = $('canvas')[0].getContext('2d');
+
+function drawKeyframes(keyframes) {
+    ctx.strokeStyle = "rgba(255, 0, 0, 1)";
+    
+    ctx.beginPath();
+    ctx.moveTo(keyframes[0].state.x, keyframes[0].state.y);
+    keyframes.forEach(function (keyframe) {
+        var x = keyframe.state.x;
+        var y = keyframe.state.y;
+        console.log(x, y);
+        ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+}
+
+
+function drawTriangle(p0, p1, p2) {
+    ctx.strokeStyle = "rgba(255, 255, 255, 1.0)";
+    
+    ctx.beginPath();
+    ctx.fillStyle = "rgba( 0, 0, 255, 0.2)";        
+
+    ctx.moveTo(p0.x, p0.y);
+    ctx.lineTo(p1.x, p1.y);
+    ctx.lineTo(p2.x, p2.y);
+    ctx.lineTo(p0.x, p0.y);
+    ctx.stroke();
+    ctx.fill();
+}
 
     socket.on('connect', function () {
         console.log("socket connected");
+
+        $('canvas').click(function (evt) {
+            socket.emit('intention', {
+                x: evt.offsetX, 
+                y: evt.offsetY,
+                level: 'ground'
+            });
+        });
+
+        socket.emit('intention', {
+            x: 522, 
+            y: 113,
+            level: 'ground'
+        });
     });
 
+    socket.on('drawTriangles', function (triangles) {
+        ctx.clearRect(0, 0, 1000, 1000);
+        triangles.forEach(function (tri, i) {
+            drawTriangle(tri.p0, tri.p1, tri.p2, i);
+        });
+    });
+    
+
     socket.on('attendeeKeyframes', function (data) {
-        
-        // Log socket messages
-        console.log(data);
-
-        // Do something with the data
-        if (data.keyframes !== undefined){
-            if(data.keyframes.length > 0){
-
-                // TODO: Check if attendee representation exists, if not, add it
-                var attendeeExists = false;
-
-                if (attendeeExists != true){
-
-                    console.log("x: " + data.keyframes[0].state.x + "; y: " + data.keyframes[0].state.y + ";");
-                    
-                    // Add new attendee representation to the canvas
-                    // TODO: Add attendee ID to each representation
-                    ctx.beginPath();
-                    ctx.fillStyle = "rgba(" + Math.round(Math.random() * 1024) + "," + Math.round(Math.random() * 1024) + "," + Math.round(Math.random() * 1024) + ",1)";
-                    ctx.arc(data.keyframes[0].state.x,data.keyframes[0].state.y,5,0,2*Math.PI);
-                    ctx.stroke();
-                    ctx.fill();
-                }
-            };         
-        }
+        drawKeyframes(data.keyframes);
+        data.keyframes.forEach(function (keyframe) {
+            var x = keyframe.state.x;
+            var y = keyframe.state.y;
+            $('#avatar').animate({
+                left: x,
+                top: y
+            });
+            
+        });
     });
 
     socket.on('disconnect', function () {
         console.log("socket disconnected");
     });
 
-    socket.emit('intention', {
-        x: Math.round(Math.random() * 1024),
-        y: Math.round(Math.random() * 768),
-        level: 'ground'
-    });
+    console.log("LOL");
+    
 
-    // Add canvas
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
-    ctx.fillStyle = "#e5e5e5";
-    ctx.fillRect(0,0,1024,768);
+    
 });
