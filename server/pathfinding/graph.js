@@ -76,7 +76,8 @@ function angleTest(subject, left, right) {
  * Find the shortest path from p0 to p1.
  * @param {Vector} p0
  * @param {Vector} p1
- */ Graph.prototype.shortestPath = function (p0, p1) {
+ */
+Graph.prototype.shortestPath = function (p0, p1) {
      var t0 = this.containingTriangle(p0);
      var t1 = this.containingTriangle(p1);
 
@@ -102,8 +103,6 @@ function angleTest(subject, left, right) {
 
      var left = diagonals[0].p0;
      var right = diagonals[0].p1;
-
-    // console.log("SHOULD BE FALSE: ", (new Triangle(new Vector(0, 0), new Vector(10, 0), new Vector(0, 10))).clockwise());
 
      if ((new Triangle(p0, right, left)).clockwise()) {
          var temp = left;
@@ -179,10 +178,6 @@ function angleTest(subject, left, right) {
                  // Crosses over left side.
                  console.log("Right side crossing over left one");
                  path.push(leftVertices[narrowingLeft]);
-//                 i++;
-//                 return path;
-//                 i = narrowingLeft;
- //                narrowingRight = i;
 
                  var next = narrowingLeft+1;
                  while (leftVertices.length > next && leftVertices[narrowingLeft].equals(leftVertices[next])) {
@@ -199,94 +194,8 @@ function angleTest(subject, left, right) {
              }
          } 
      }
-     //path.push(leftVertices[narrowingLeft]);
-     //path.push(rightVertices[narrowingRight]);
-
-     console.log(path);
 
      path.push(p1);
-     
-     
-
-     return path;
-
-/*
-
-     
-     var path = [];
-     leftVertices.forEach(function (v) {
-         path.push(v);
-     });
-     path.push(p1);
-     rightVertices.reverse();
-     rightVertices.forEach(function (v) {
-         path.push(v);
-     });
-     path.push(p0);
-     return path;
-*/
-     /*
-
-     function setApex(point) {
-         i++;
-         if (!diagonals[i]) return;
-     }
-
-     setApex(p0);
-     
-     function extendFunnel(side, point, i) {
-         var apex = path[path.length - 1];
-         if (side === 'right') {
-             right = point;
-             if ((new Triangle(apex, funnelRight, point)).clockwise()) {
-                 console.log("widens right. skip.");
-                 return; // Widens funnel. Skip.
-             } else if ((new Triangle(apex, point, funnelLeft)).clockwise()) {
-                 // Crosses over on left side.
-                 setApex(funnelLeft);
-             } else {
-                 // Narrows funnel.
-                 console.log("narowing funnelRight");
-                 funnelRight = point;
-             }
-         } else if (side === 'left') {
-             left = point;
-             if ((new Triangle(apex, point, funnelLeft)).clockwise()) {
-                 console.log("widens left. skip.");
-                 return; // Widens funnel. Skip.
-             } else if ((new Triangle(apex, funnelRight, point)).clockwise()) {
-                 console.log("left crosses over ight side.");
-                 // Crosses over on left side.
-                 setApex(funnelRight);
-             } else {
-                 // Narrows funnel.
-                 console.log("narowing funnelLeft");
-                 funnelLeft = point;
-             }
-
-         } else {
-             throw "Invalid side of funnel.";
-         }
-     }
-
-     for (i = 1; i < diagonals.length; i++) {
-         var apex = path[path.length - 1];
-         var diagonal = diagonals[i];
-
-         if (left.equals(diagonal.p0)) {
-             extendFunnel('right', diagonal.p1, i);
-         } else if (left.equals(diagonal.p1)) {
-             extendFunnel('right', diagonal.p0, i);
-         } else if (right.equals(diagonal.p0)) {
-             extendFunnel('left', diagonal.p1, i);
-         } else if (right.equals(diagonal.p1)) {
-             extendFunnel('left', diagonal.p0, i);
-         } else {
-             throw "Triangles does not seem connected."
-         }
-     }
-*/
-     //path.push(p1);
      return path;
 
  }
