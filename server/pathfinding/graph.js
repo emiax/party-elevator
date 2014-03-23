@@ -57,21 +57,6 @@ Graph.prototype.containingTriangle = function (p) {
 }
 
 
-function angleTest(subject, left, right) {
-    var rightTri = new Triangle(new Vector(0, 0), right, subject);
-    if (rightTri.clockwise()) {
-        var leftTri = new Triangle(new Vector(0, 0), subject, left);
-        if (leftTri.clockwise()) {
-            return 'between';
-        } else {
-            return 'left';
-        }
-    } else {
-        return 'right';
-    }         
-}
-
-
 /**
  * Find the shortest path from p0 to p1.
  * @param {Vector} p0
@@ -87,12 +72,10 @@ Graph.prototype.shortestPath = function (p0, p1) {
 
      var diagonals = t0.shortestPathToTriangle(t1);
      if (!diagonals) {
-         console.log("NO PATH");
          return null;
      }
      
      if (diagonals.length === 0) {
-         console.log("SAME TRIANGLE");
          return [p0, p1];
      }
  
@@ -115,7 +98,6 @@ Graph.prototype.shortestPath = function (p0, p1) {
 
      var nDiagonals = diagonals.length;
      for (var i = 1; i < diagonals.length; i++) {         
-         console.log("iter" + i);
          var diagonal = diagonals[i];
          var leftTail = leftVertices[i-1];
          var rightTail = rightVertices[i-1];
@@ -144,16 +126,11 @@ Graph.prototype.shortestPath = function (p0, p1) {
              // left vertex is different
              if ((new Triangle(apex, newVertex, leftVertices[narrowingLeft])).clockwise()) {
                  // Widens funnel.
-                 console.log("Widen to the left.");
+                 // console.log("Widen to the left.");
              } else if ((new Triangle(apex, rightVertices[narrowingRight], newVertex)).clockwise()) {
                  // Crosses over right side.
-                 console.log("Left side crossing over right one");
+                 //console.log("Left side crossing over right one");
                  path.push(rightVertices[narrowingRight]);
-//                 i++;
-                 //narrowingLeft = i;
-                 //narrowingRight = i;
-                 //                 return path;
-                 
                  var next = narrowingRight+1;
                  while (rightVertices.length > next && rightVertices[narrowingRight].equals(rightVertices[next])) {
                      next++;
@@ -164,7 +141,7 @@ Graph.prototype.shortestPath = function (p0, p1) {
                  narrowingRight = i;
              } else {
                  // Narrows funnel
-                 console.log("Narrowing left.");
+                 // console.log("Narrowing left.");
                  narrowingLeft = i;
              }
          }
@@ -173,10 +150,10 @@ Graph.prototype.shortestPath = function (p0, p1) {
              // right vertex is different
              if ((new Triangle(apex, rightVertices[narrowingRight], newVertex)).clockwise()) {
                  // Widens funnel.
-                 console.log("Widen to the right.");
+                 //console.log("Widen to the right.");
              } else if ((new Triangle(apex, newVertex, leftVertices[narrowingLeft])).clockwise()) {
                  // Crosses over left side.
-                 console.log("Right side crossing over left one");
+                 //console.log("Right side crossing over left one");
                  path.push(leftVertices[narrowingLeft]);
 
                  var next = narrowingLeft+1;
@@ -189,7 +166,7 @@ Graph.prototype.shortestPath = function (p0, p1) {
                  narrowingRight = i;
              } else {
                  // Narrows funnel
-                 console.log("Narrowing right.");
+                 //console.log("Narrowing right.");
                  narrowingRight = i;
              }
          } 
@@ -200,4 +177,4 @@ Graph.prototype.shortestPath = function (p0, p1) {
 
  }
 
-     module.exports = Graph;
+module.exports = Graph;
