@@ -18,6 +18,7 @@
   "dependencies": {
       "requirejs": "~2.1.10",
       "jquery": "*",
-      "socket.io-client": "*"
+      "socket.io-client": "*",
+      "moment": "*"
   }
 }
