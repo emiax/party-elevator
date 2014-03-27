@@ -47,7 +47,7 @@ Pathfinder = {
             }));
         });
 
-        var speed = 1;
+        var speed = 0.1;
         var keyframes = [];
 
         keyframes.push(new Keyframe(originalState, startTime));

@@ -4,7 +4,6 @@ Party = {
     
     attendees: {},
 
-
     setIntention: function (attendee, intention) {
         attendee.setIntention(intention);
 
@@ -20,6 +19,23 @@ Party = {
     addAttendee: function (a) {
         this.attendees[a.id()] = a;
     },
+
+
+    allToClientFormat: function () {
+        var attendeeData = {};
+        var self = this;
+        Object.keys(this.attendees).forEach(function (attendeeId) {
+            var attendee = self.attendees[attendeeId];
+            attendeeData[attendeeId] = attendee.toClientFormat();
+        });
+
+        var data = {
+            attendees: attendeeData
+        };
+
+        return data;
+    }
+    
 
 };
 

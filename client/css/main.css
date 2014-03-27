@@ -2,6 +2,7 @@ html, body {
     margin: 0;
     padding: 0;
     background-color: #fff;
+    text-align: center;
 }
 
 
@@ -9,9 +10,10 @@ html, body {
     position: absolute;
     width: 1000px;
     height: 500px;
+    background-image: url('../img/salongerna.png');
 }
 
-#avatar {
+.attendee {
     width: 10px;
     height: 10px;
     margin-left: -5px;
@@ -24,7 +26,12 @@ html, body {
 }
 
 canvas {
-    position: absolute;
     width: 1000;
     height: 500px;
+}
+
+.wrapper {
+    position: relative;
+    margin: auto auto;
+    width: 1000px;
 }

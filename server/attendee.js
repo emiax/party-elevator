@@ -19,7 +19,7 @@ Attendee.prototype.id = function () {
 
 Attendee.prototype.toClientFormat = function () {
     var keyframes = [];
-    this.keyframes().forEach(function (kf) {
+    this.interpolatedKeyframes().forEach(function (kf) {
         keyframes.push(kf.toClientFormat());
     });
     return {
@@ -44,6 +44,17 @@ Attendee.prototype.toString = function () {
 
 Attendee.prototype.keyframes = function () {
     return this._keyframes;
+}
+
+
+/**
+ * 
+ */
+Attendee.prototype.interpolatedKeyframes = function () {
+    var keyframes = this._keyframes;
+    var interpolatedKeyframes = keyframes.slice(this.previousKeyframeIndex() + 1);
+    interpolatedKeyframes.unshift(new Keyframe(this.currentState(), new Date()));
+    return interpolatedKeyframes;
 }
 
 
@@ -73,9 +84,6 @@ Attendee.prototype.currentState = function () {
     var nextKeyframeIndex = previousKeyframeIndex + 1;
     if (nextKeyframeIndex < this._keyframes.length) {
         var nextKeyframe = this._keyframes[nextKeyframeIndex];
-        console.log("INERPOLATING");
-        console.log("PREV", previousKeyframe);
-        console.log("NEXT", nextKeyframe);
         return Keyframe.interpolateStates(previousKeyframe, nextKeyframe, new Date());
     } else {
         return previousKeyframe.state();
@@ -97,7 +105,6 @@ Attendee.prototype.previousKeyframeIndex = function () {
             break;
         }
     }
-    console.log("PREV KEYFRAME INDEX: " + previousKeyframeIndex);
     return previousKeyframeIndex;
 }
 

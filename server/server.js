@@ -31,7 +31,10 @@ Pathfinder.loadMap(function () {
         party.addAttendee(attendee);
         sockets[attendee.id()] = socket;
 
-        //    socket.emit('allStates', party.allStates());
+        socket.emit('all', party.allToClientFormat());
+
+        socket.emit('sync', (new Date()).getTime());
+
         socket.on('intention', function (data) {
             // handle input.
             var x = data.x;
@@ -43,7 +46,6 @@ Pathfinder.loadMap(function () {
             default: level = State.LevelEnum.GROUND;
             }
 
-            // do stuff.
             party.setIntention(attendee, new State({
                 x: x,
                 y: y,
@@ -52,15 +54,12 @@ Pathfinder.loadMap(function () {
 
             // send updates to clients.
             Object.keys(sockets).forEach(function (attendeeId) {
-
-                var outputSocket = sockets[attendeeId]
-
-
+                var outputSocket = sockets[attendeeId];
                 var tris = [];
                 Pathfinder.triangles().forEach(function (tri) {
                     tris.push(tri.toClientFormat());
                 });
-                outputSocket.emit('drawTriangles', tris);
+//                outputSocket.emit('drawTriangles', tris);
 
                 outputSocket.emit('attendeeKeyframes', attendee.toClientFormat());
 
