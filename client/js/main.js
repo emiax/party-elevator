@@ -10,7 +10,7 @@ requirejs.config({
 
 var timeOffset = 0;
 
-require(['projector', 'socket.io', 'jquery'], function (Projector, io, $) {
+require(['projector', 'socket.io', 'jquery', 'spriteanimator'], function (Projector, io, $, animate) {
 
     var socket = io.connect('http://localhost:8081');
     var ctx = $('canvas')[0].getContext('2d');
@@ -86,14 +86,22 @@ require(['projector', 'socket.io', 'jquery'], function (Projector, io, $) {
 
             var duration = keyframe.time - lastKeyframeTime;
             
-            console.log(duration);
-            
             $elem.animate({
                 left: projected.x,
                 top: projected.y
             }, {
                 duration: duration
             });
+            
+            /*
+            animate({
+                spriteID: 'avatar',
+                targetCoords: { x: projected.x, y: projected.y },
+                speed: 5,
+                character: 13
+            })
+            */
+
             lastKeyframeTime = keyframe.time;
         });
     }
@@ -107,7 +115,7 @@ require(['projector', 'socket.io', 'jquery'], function (Projector, io, $) {
                 x: evt.offsetX,
                 y: evt.offsetY
             };
-
+            
             var pos = Projector.unproject(projected);
             socket.emit('intention', {
                 x: pos.x,
@@ -115,56 +123,51 @@ require(['projector', 'socket.io', 'jquery'], function (Projector, io, $) {
                 level: 'ground'
             });
         });
-
-/*        socket.emit('intention', {
-            x: 522,
-            y: 113,
-            level: 'ground'
-        });*/
-    });
-
-    socket.on('drawTriangles', function (triangles) {
-        ctx.clearRect(0, 0, 1000, 1000);
-        triangles.forEach(function (tri, i) {
-            drawTriangle(Projector.project(tri.p0), Projector.project(tri.p1), Projector.project(tri.p2), i);
+        
+        
+        socket.on('drawTriangles', function (triangles) {
+            ctx.clearRect(0, 0, 1000, 1000);
+            triangles.forEach(function (tri, i) {
+                drawTriangle(Projector.project(tri.p0), Projector.project(tri.p1), Projector.project(tri.p2), i);
+            });
         });
-    });
+        
 
-
-    socket.on('attendeeKeyframes', function (data) {
-        drawKeyframes(data.keyframes);
-        updateAttendee(data);
-    });
-
-    socket.on('all', function (data) {
-        Object.keys(data.attendees).forEach(function (attendeeId) {
-            attendeeData = data.attendees[attendeeId];
-            updateAttendee(attendeeData);
+        socket.on('attendeeKeyframes', function (data) {
+            drawKeyframes(data.keyframes);
+            updateAttendee(data);
         });
+        
+        socket.on('all', function (data) {
+            Object.keys(data.attendees).forEach(function (attendeeId) {
+                attendeeData = data.attendees[attendeeId];
+                updateAttendee(attendeeData);
+            });
+            console.log("Done.")
+        });
+        
+        
+        socket.on('sync', function (serverTime) {
+            var clientTime = (new Date()).getTime();
+            timeOffset = clientTime - serverTime;
+            console.log("Time offset: ", timeOffset)
+        });
+        
+        
+        socket.on('disconnect', function () {
+            console.log("socket disconnected");
+        });
+        
+        console.log("LOL");
+        
+        //    console.log(Projector.unproject((Projector.project({x: 307, y: 326.5}))));
+        //    console.log(Projector.project({x: 614, y: 326.5}));
+        //    console.log(Projector.project({x: 0, y: 326.5}));
+        //    console.log(Projector.unproject({x: 400, y: 250}))
+//        console.log(Projector.unproject({x: 500, y: 250}))
+        //    console.log(Projector.unproject({x: 0, y: 250}));
+        //    console.log(Projector.unproject({x: 400, y: 250}))
+        ///    console.log(Projector.unproject({x: 800, y: 250}))
+        //    console.log(Projector.unproject((Projector.project({x: 0, y: 326.5}))));
     });
-
-    
-    socket.on('sync', function (serverTime) {
-        var clientTime = (new Date()).getTime();
-        timeOffset = clientTime - serverTime;
-        console.log("Time offset: ", timeOffset)
-    });
-
-
-    socket.on('disconnect', function () {
-        console.log("socket disconnected");
-    });
-
-    console.log("LOL");
-
-    //    console.log(Projector.unproject((Projector.project({x: 307, y: 326.5}))));
-    //    console.log(Projector.project({x: 614, y: 326.5}));
-    //    console.log(Projector.project({x: 0, y: 326.5}));
-    //    console.log(Projector.unproject({x: 400, y: 250}))
-    console.log(Projector.unproject({x: 500, y: 250}))
-    //    console.log(Projector.unproject({x: 0, y: 250}));
-    //    console.log(Projector.unproject({x: 400, y: 250}))
-    ///    console.log(Projector.unproject({x: 800, y: 250}))
-    //    console.log(Projector.unproject((Projector.project({x: 0, y: 326.5}))));
-
 });
