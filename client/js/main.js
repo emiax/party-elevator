@@ -86,21 +86,21 @@ require(['projector', 'socket.io', 'jquery', 'spriteanimator'], function (Projec
 
             var duration = keyframe.time - lastKeyframeTime;
             
-            $elem.animate({
-                left: projected.x,
-                top: projected.y
-            }, {
-                duration: duration
-            });
+            // $elem.animate({
+            //     left: projected.x,
+            //     top: projected.y
+            // }, {
+            //     duration: duration
+            // });
             
-            /*
+            
             animate({
-                spriteID: 'avatar',
+                attendeeElement: $elem,
                 targetCoords: { x: projected.x, y: projected.y },
-                speed: 5,
-                character: 13
+                duration: duration
             })
-            */
+            console.log('data.id: ' + data.id   )
+            
 
             lastKeyframeTime = keyframe.time;
         });

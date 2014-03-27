@@ -14,8 +14,8 @@ html, body {
 }
 
 .attendee {
-    width: 10px;
-    height: 10px;
+    width: 0px;
+    height: 0px;
     margin-left: -5px;
     margin-right: -5x;
     position: absolute;
@@ -34,4 +34,19 @@ canvas {
     position: relative;
     margin: auto auto;
     width: 1000px;
+}
+
+.sprite-wrap {
+    width: 32px;
+    height: 32px; /* 720px; */
+    top: -16px;
+    left:-16px;
+    position: relative;
+    overflow: hidden;
+}
+.sprite-wrap img {
+    position: absolute;
+    top: -128px;
+    left: 0;
+    width: 192px;
 }
