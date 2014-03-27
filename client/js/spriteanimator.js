@@ -229,7 +229,7 @@ define([
 	            var offsetX = - spriteSize * state;
 	            $spriteEl.css({
 	                'left': offsetX + 'px',
-	                'top': - (parseInt($(parentEl).attr('id').substr(8,4)) % 20) * spriteSize + 'px',
+	                'top': - (parseInt($(parentEl).attr('id').substr(8,4)) % 44) * spriteSize + 'px',
 	                '-moz-transform': 'scaleX(1)',
 	                '-o-transform': 'scaleX(1)',
 	                '-webkit-transform': 'scaleX(1)',
