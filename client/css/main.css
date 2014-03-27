@@ -14,10 +14,10 @@ html, body {
 }
 
 .attendee {
-    width: 10px;
-    height: 10px;
-    margin-left: -5px;
-    margin-right: -5x;
+    width: 40px;
+    height: 40px;
+    margin-left: -20px;
+    margin-right: -20x;
     position: absolute;
     top: 0;
     left: 0;
