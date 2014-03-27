@@ -97,57 +97,108 @@ define([
     };
     var stop = {
         'up': [
-            {'state':1, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':1, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':1, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':1, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':1, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':1, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':1, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':1, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':1, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':1, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':1, 'flip': 0, 'x': 0, 'y': 0}
+            {'state':1, 'flip': 0},
+            {'state':1, 'flip': 0},
+            {'state':1, 'flip': 0},
+            {'state':1, 'flip': 0},
+            {'state':1, 'flip': 0},
+            {'state':1, 'flip': 0},
+            {'state':1, 'flip': 0},
+            {'state':1, 'flip': 0},
+            {'state':1, 'flip': 0},
+            {'state':1, 'flip': 0},
+            {'state':1, 'flip': 0}
         ],
         'right': [
-            {'state':2, 'flip': 1, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 1, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 1, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 1, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 1, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 1, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 1, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 1, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 1, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 1, 'x': 0, 'y': 0}
+            {'state':2, 'flip': 1},
+            {'state':2, 'flip': 1},
+            {'state':2, 'flip': 1},
+            {'state':2, 'flip': 1},
+            {'state':2, 'flip': 1},
+            {'state':2, 'flip': 1},
+            {'state':2, 'flip': 1},
+            {'state':2, 'flip': 1},
+            {'state':2, 'flip': 1},
+            {'state':2, 'flip': 1}
         ],
         'down': [
-            {'state':0, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':0, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':0, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':0, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':0, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':0, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':0, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':0, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':0, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':0, 'flip': 0, 'x': 0, 'y': 0}
+            {'state':0, 'flip': 0},
+            {'state':0, 'flip': 0},
+            {'state':0, 'flip': 0},
+            {'state':0, 'flip': 0},
+            {'state':0, 'flip': 0},
+            {'state':0, 'flip': 0},
+            {'state':0, 'flip': 0},
+            {'state':0, 'flip': 0},
+            {'state':0, 'flip': 0},
+            {'state':0, 'flip': 0}
         ],
         'left': [
-            {'state':2, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 0, 'x': 0, 'y': 0},
-            {'state':2, 'flip': 0, 'x': 0, 'y': 0}
+            {'state':2, 'flip': 0},
+            {'state':2, 'flip': 0},
+            {'state':2, 'flip': 0},
+            {'state':2, 'flip': 0},
+            {'state':2, 'flip': 0},
+            {'state':2, 'flip': 0},
+            {'state':2, 'flip': 0},
+            {'state':2, 'flip': 0},
+            {'state':2, 'flip': 0},
+            {'state':2, 'flip': 0}
         ],
+    }
+    var dance = {
+        'bobhead': [
+            {'state':3, 'flip': 0},
+            {'state':0, 'flip': 0},
+            {'state':3, 'flip': 0},
+            {'state':0, 'flip': 0},
+        ],
+        'leftright': [
+            {'state':5, 'flip': 0},
+            {'state':0, 'flip': 0},
+            {'state':5, 'flip': 1},
+            {'state':0, 'flip': 0},
+        ],
+        'spin': [
+            {'state':5, 'flip': 0},
+            {'state':4, 'flip': 0},
+            {'state':5, 'flip': 1},
+            {'state':3, 'flip': 0},
+            {'state':0, 'flip': 0},
+            {'state':0, 'flip': 0},
+            {'state':0, 'flip': 0},
+            {'state':3, 'flip': 1},
+            {'state':3, 'flip': 1},
+            {'state':3, 'flip': 1},
+        ],
+        'spinfast': [
+            {'state':5, 'flip': 0},
+            {'state':4, 'flip': 0},
+            {'state':5, 'flip': 1},
+            {'state':3, 'flip': 0},
+            {'state':5, 'flip': 0},
+            {'state':4, 'flip': 0},
+            {'state':5, 'flip': 1},
+            {'state':3, 'flip': 0},
+            {'state':5, 'flip': 0},
+            {'state':4, 'flip': 0},
+            {'state':5, 'flip': 1},
+            {'state':3, 'flip': 0},
+            {'state':5, 'flip': 0},
+            {'state':4, 'flip': 0},
+            {'state':5, 'flip': 1},
+            {'state':3, 'flip': 0},
+        ],
+        'leftkick': [
+            {'state':5, 'flip': 0},
+            {'state':0, 'flip': 0},
+            {'state':3, 'flip': 1},
+            {'state':0, 'flip': 0},
+        ]
     };
 
-	var character = 10;
+
+	var character = 0;
 
 	var relx = -16;
 	var rely = -16;
@@ -207,6 +258,8 @@ define([
 
 
 	var animate = function(initObj){
+
+		character = initObj.character;
 		
 		/*
 		Example of initObj: 
@@ -290,10 +343,10 @@ define([
 	            // Check if animation should be left/right or up/down
 	            if(catheterYLength < catheterXLength ){
 	                // animation is left or right
-	                if(catheterXLength > 0.1){
+	                if(catheterXLength > 0.5){ //Threshold to prevent animation when avatar is just moving < .00001 steps
 	                    if(catheterX < 0){
 	                        // delta X is negative - moving left
-	                        window.animations['sprite_' + initObj.spriteID + '_anim'] = animateSprite('#sprite', walk.left, window.animations['sprite_' + initObj.spriteID + '_anim']);
+	                        window.animations['sprite_' + initObj.spriteID + '_anim'] = animateSprite('#sprite', walk.left /* Try dance.spinfast */, window.animations['sprite_' + initObj.spriteID + '_anim']);
 	                        // console.log("walk.left");
 	                    }else{
 	                        // moving right
@@ -303,7 +356,7 @@ define([
 	                }
 	            }else{
 	                // animation is up or down
-	                if(catheterYLength > 0.1){
+	                if(catheterYLength > 0.5){ //Threshold to prevent animation when avatar is just moving < .00001 steps
 	                    if(catheterY < 0){
 	                        // delta Y is negative - moving up
 	                        window.animations['sprite_' + initObj.spriteID + '_anim'] = animateSprite('#sprite', walk.up, window.animations['sprite_' + initObj.spriteID + '_anim']);
@@ -320,7 +373,7 @@ define([
 	        // When we're done, stop and face the camera.
 	        // TODO: Maybe dance a bit instead of stopping?
 	        done: function(){
-	            window.animations['sprite_' + initObj.spriteID + '_anim'] = animateSprite('#sprite', stop.down, window.animations['sprite_' + initObj.spriteID + '_anim']);
+	            window.animations['sprite_' + initObj.spriteID + '_anim'] = animateSprite('#sprite', stop.down /*Trye dance.spin*/, window.animations['sprite_' + initObj.spriteID + '_anim']);
 	        },
 	        easing: 'linear',
 	        duration: msPerPixel * hypotenuse

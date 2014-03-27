@@ -84,8 +84,8 @@ function drawTriangle(p0, p1, p2) {
         });
 
         socket.emit('intention', {
-            x: 522, 
-            y: 113,
+            x: 0, 
+            y: 0,
             level: 'ground'
         });
     });
@@ -116,7 +116,8 @@ function drawTriangle(p0, p1, p2) {
             animate({
                 spriteID: 'avatar',
                 targetCoords: { x: projected.x, y: projected.y },
-                speed: 5
+                speed: 5,
+                character: 13
             })
             
         });
