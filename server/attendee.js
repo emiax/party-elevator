@@ -24,7 +24,8 @@ Attendee.prototype.toClientFormat = function () {
     });
     return {
         id: this._id,
-        keyframes: keyframes
+        keyframes: keyframes,
+        fbId: this._facebookData.id
     }
 }
 
@@ -44,6 +45,14 @@ Attendee.prototype.toString = function () {
 
 Attendee.prototype.keyframes = function () {
     return this._keyframes;
+}
+
+
+/**
+ * Set facebook data.
+ */
+Attendee.prototype.setFacebookData = function (data) {
+    this._facebookData = data;
 }
 
 

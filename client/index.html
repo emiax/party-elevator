@@ -4,9 +4,10 @@
   <meta charset="utf-8">
   <title>Party elevator</title>
   <link rel="stylesheet" type="text/css" href="css/main.css">
+  <script src="bower_components/requirejs/require.js" data-main="js/main.js"></script>
 </head>
 <body>
-  <script src="bower_components/requirejs/require.js" data-main="js/main.js"></script>
+  <fb:login-button show-faces="true" width="200" max-rows="1" ></fb:login-button>
   <div class="wrapper">
     <div id="map"></div>
     <canvas width="1000" height="500" id="canvas"></canvas>
@@ -14,5 +15,10 @@
       <!-- Attendees will spawn here. -->
     </div>
   </div>
+
+  <form id="chat">
+    <input name="chatMessage" id="chatMessage"/>
+    <input type="submit"/>
+  </form>
 </body>
 </html>

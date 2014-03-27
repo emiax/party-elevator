@@ -10,9 +10,35 @@ requirejs.config({
 
 var timeOffset = 0;
 
-require(['projector', 'socket.io', 'jquery', 'spriteanimator'], function (Projector, io, $, animate) {
+require([
+    'projector',
+    'socket.io',
+    'jquery',
+    'facebookConnector',
+    'spriteanimator'
+], function (
+    Projector,
+    io,
+    $,
+    FacebookConnector,
+    animate
+) {
 
-    var socket = io.connect('http://localhost:8081');
+    // Here we run a very simple test of the Graph API after login is successful.
+    // This testAPI() function is only called in those cases.
+    /*    function testAPI() {
+          console.log('Welcome!  Fetching your information.... ');
+          FB.api('/me', function(response) {
+          console.log('Good to see you, ' + response.name + '.');
+          console.log(response);
+          var img_link = "http://graph.facebook.com/"+response.id+"/picture";
+          $("#placeholder").append($('<img src="' + img_link + '"/>'));
+          });
+          }*/
+
+    FacebookConnector.init(onLogin);
+    var socket = io.connect(':8081');
+
     var ctx = $('canvas')[0].getContext('2d');
 
     function drawKeyframes(keyframes) {
@@ -75,6 +101,10 @@ require(['projector', 'socket.io', 'jquery', 'spriteanimator'], function (Projec
         var $elem = elementOfAttendee(data.id);
         $elem.stop(true);
 
+
+        var fbId = data.fbId;
+        $elem.attr('src', "http://graph.facebook.com/" + fbId + "/picture");
+
         var lastKeyframeTime = new Date().getTime() - timeOffset;
         data.keyframes.forEach(function (keyframe) {
             var x = keyframe.state.x;
@@ -85,14 +115,21 @@ require(['projector', 'socket.io', 'jquery', 'spriteanimator'], function (Projec
             });
 
             var duration = keyframe.time - lastKeyframeTime;
-            
-            // $elem.animate({
-            //     left: projected.x,
-            //     top: projected.y
-            // }, {
-            //     duration: duration
-            // });
-            
+/*
+            $elem.animate({
+                left: projected.x,
+                top: projected.y
+            }, {
+                duration: duration
+            });
+
+              animate({
+              spriteID: 'avatar',
+              targetCoords: { x: projected.x, y: projected.y },
+              speed: 5,
+              character: 13
+              })
+            */
             
             animate({
                 attendeeElement: $elem,
@@ -105,69 +142,89 @@ require(['projector', 'socket.io', 'jquery', 'spriteanimator'], function (Projec
             lastKeyframeTime = keyframe.time;
         });
     }
+    
+    function sendFacebookData(data) {
+        socket.emit('login', data);
+    }
+    
 
+    function onLogin() {
+        FB.api('/me', function(response) {
+            console.log('Good to see you, ' + response.name + '.');
+            console.log(response);
+            //            var img_link = "http://graph.facebook.com/"+response.id+"/picture";
+            //            $("#placeholder").append($('<img src="' + img_link + '"/>'));
+            sendFacebookData(response);
+        });
 
-    socket.on('connect', function () {
-        console.log("socket connected");
+    }
 
-        $('#map').click(function (evt) {
-            var projected = {
-                x: evt.offsetX,
-                y: evt.offsetY
-            };
-            
-            var pos = Projector.unproject(projected);
-            socket.emit('intention', {
-                x: pos.x,
-                y: pos.y,
-                level: 'ground'
+    function init() {
+        $("#chat").submit(function (evt) {
+            var message = $("#chatMessage").val();
+            socket.emit('chat', message)
+            evt.preventDefault();
+        });
+
+        socket.on('chat', function (data) {
+            var attendeeId = data.attendee;
+            var message = data.message;
+            console.log(message);
+        });
+
+        socket.on('connect', function () {
+            console.log("socket connected");
+
+            $('#map').click(function (evt) {
+                var projected = {
+                    x: evt.offsetX,
+                    y: evt.offsetY
+                };
+
+                var pos = Projector.unproject(projected);
+                socket.emit('intention', {
+                    x: pos.x,
+                    y: pos.y,
+                    level: 'ground'
+                });
             });
-        });
-        
-        
-        socket.on('drawTriangles', function (triangles) {
-            ctx.clearRect(0, 0, 1000, 1000);
-            triangles.forEach(function (tri, i) {
-                drawTriangle(Projector.project(tri.p0), Projector.project(tri.p1), Projector.project(tri.p2), i);
-            });
-        });
-        
 
-        socket.on('attendeeKeyframes', function (data) {
-            drawKeyframes(data.keyframes);
-            updateAttendee(data);
-        });
-        
-        socket.on('all', function (data) {
-            Object.keys(data.attendees).forEach(function (attendeeId) {
-                attendeeData = data.attendees[attendeeId];
-                updateAttendee(attendeeData);
+
+            socket.on('drawTriangles', function (triangles) {
+                ctx.clearRect(0, 0, 1000, 1000);
+                triangles.forEach(function (tri, i) {
+                    drawTriangle(Projector.project(tri.p0), Projector.project(tri.p1), Projector.project(tri.p2), i);
+                });
             });
-            console.log("Done.")
+
+
+            socket.on('attendeeKeyframes', function (data) {
+                console.log("data", data);
+                drawKeyframes(data.keyframes);
+                updateAttendee(data);
+            });
+
+            socket.on('all', function (data) {
+                Object.keys(data.attendees).forEach(function (attendeeId) {
+                    attendeeData = data.attendees[attendeeId];
+                    updateAttendee(attendeeData);
+                });
+                console.log("Done.")
+            });
+
+
+            socket.on('sync', function (serverTime) {
+                var clientTime = (new Date()).getTime();
+                timeOffset = clientTime - serverTime;
+                console.log("Time offset: ", timeOffset)
+            });
+
+
+            socket.on('disconnect', function () {
+                console.log("socket disconnected");
+            });
+
         });
-        
-        
-        socket.on('sync', function (serverTime) {
-            var clientTime = (new Date()).getTime();
-            timeOffset = clientTime - serverTime;
-            console.log("Time offset: ", timeOffset)
-        });
-        
-        
-        socket.on('disconnect', function () {
-            console.log("socket disconnected");
-        });
-        
-        console.log("LOL");
-        
-        //    console.log(Projector.unproject((Projector.project({x: 307, y: 326.5}))));
-        //    console.log(Projector.project({x: 614, y: 326.5}));
-        //    console.log(Projector.project({x: 0, y: 326.5}));
-        //    console.log(Projector.unproject({x: 400, y: 250}))
-//        console.log(Projector.unproject({x: 500, y: 250}))
-        //    console.log(Projector.unproject({x: 0, y: 250}));
-        //    console.log(Projector.unproject({x: 400, y: 250}))
-        ///    console.log(Projector.unproject({x: 800, y: 250}))
-        //    console.log(Projector.unproject((Projector.project({x: 0, y: 326.5}))));
-    });
+    }
+    init();
 });
