@@ -1,14 +1,14 @@
 html, body {
     margin: 0;
     padding: 0;
+    background-color: #fff;
 }
 
 
 #map {
     position: absolute;
-    width: 614px;
-    height: 653px;
-    background-image: url('../img/map3.png');
+    width: 1000px;
+    height: 500px;
 }
 
 #avatar {
@@ -25,6 +25,6 @@ html, body {
 
 canvas {
     position: absolute;
-    width: 614px;
-    height: 653px;
+    width: 1000;
+    height: 500px;
 }

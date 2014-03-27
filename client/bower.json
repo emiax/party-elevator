@@ -18,6 +18,8 @@
   "dependencies": {
       "requirejs": "~2.1.10",
       "jquery": "*",
-      "socket.io-client": "*"
+      "socket.io-client": "*",
+      "gl-matrix": "2.2.0",
+      "moment": "*"
   }
 }
