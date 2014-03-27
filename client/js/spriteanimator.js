@@ -197,14 +197,15 @@ define([
         ]
     };
 
-
-	var character = 0;
-
+    // Negative offset to place sprite correctly over click-coordinate
 	var relx = -16;
-	var rely = -16;
+	var rely = -32;
 
 	var spriteSize = 32;
-	function animateSprite(sel, frames, killAnimation){
+	function animateSprite(parentEl, frames, killAnimation){
+        var $spriteEl = $(parentEl).children().children('img');
+
+
 	    if(killAnimation !== undefined){
 	        clearInterval(killAnimation);
 	    }else{
@@ -226,9 +227,9 @@ define([
 
 	        if (flip == 0){
 	            var offsetX = - spriteSize * state;
-	            $(sel).css({
+	            $spriteEl.css({
 	                'left': offsetX + 'px',
-	                'top': - character * spriteSize + 'px',
+	                'top': - (parseInt($(parentEl).attr('id').substr(8,4)) % 20) * spriteSize + 'px',
 	                '-moz-transform': 'scaleX(1)',
 	                '-o-transform': 'scaleX(1)',
 	                '-webkit-transform': 'scaleX(1)',
@@ -238,7 +239,7 @@ define([
 	            }).parent().css({'left': relx + 'px', 'top': rely + 'px'});
 	        }else{
 	            var offsetX = - spriteSize * (6 - state) + spriteSize;
-	            $(sel).css({
+	            $spriteEl.css({
 	                'left': offsetX + 'px',
 	                '-moz-transform': 'scaleX(-1)',
 	                '-o-transform': 'scaleX(-1)',
@@ -252,30 +253,40 @@ define([
 	    
 	    return animation;
 	}
-	// window.animations['sprite_' + initObj.spriteID + '_anim'] = animateSprite('#sprite', walk.down);
+	// window.animations['sprite_' + $elem.attr('id') + '_anim'] = animateSprite($elem, walk.down);
 	  
 
 
 
 	var animate = function(initObj){
 
-		character = initObj.character;
-		
+
+        // Insert sprite if it is missing
+        var $elem = initObj.attendeeElement;
+        if($elem.html() == ''){
+            $elem.html('<div class="sprite-wrap"><img id="sprite" src="img/sprites64.png" alt=""></div>'); 
+        }
+
+        // character = initObj.character;
+		// character = $elem.attr('id').substr(8,4);
+		// console.log('CHARACTER: ' + character)
+
 		/*
 		Example of initObj: 
 		{
-			spriteID: '#' + initObj.spriteID,
-			targetCoords: { x: initObj.targetCoords.x, y: initObj.targetCoords.y },
-			speed: 5
-		}
+                attendeeElement: $elem,
+                targetCoords: { x: projected.x, y: projected.y },
+                duration: duration,
+                character: 13
+            }
 		*/
 
 
 		// Calculate speed (animation duration, doesn't seem to work though)
 
 	    // Get start coords
-	    var startX = parseInt($('#' + initObj.spriteID).css("left"));
-	    var startY = parseInt($('#' + initObj.spriteID).css("top"));
+	    var startX = parseInt($(initObj.attendeeElement).css("left"));
+	    var startY = parseInt($(initObj.attendeeElement).css("top"));
 
 	    // Get triangle sides
 	    var catheterX = initObj.targetCoords.x - startX ;
@@ -296,9 +307,6 @@ define([
 	    // Get length of hypotenuse (for calculating speed, or animation duration)
 	    var hypotenuse = Math.sqrt(catheterXLength * catheterXLength + catheterYLength * catheterYLength);
 
-	    // Define speed. Lower is faster
-	    var msPerPixel = 5;
-
 	    // Dirty stuff:
 	    // To be able to remove the setInterval for an animation, we need to store it in a global object.
 	    // For now, i'm using the window.
@@ -307,7 +315,7 @@ define([
 	    }
 
 	    // Animate position movement
-	    $('#' + initObj.spriteID).animate({
+	    $(initObj.attendeeElement).animate({
 	        left: initObj.targetCoords.x,
 	        top: initObj.targetCoords.y
 	    },
@@ -316,8 +324,8 @@ define([
 	        start: function(){
 
 	            // Update start coords for every turn
-	            startX = parseInt($('#' + initObj.spriteID).css("left"));
-	            startY = parseInt($('#' + initObj.spriteID).css("top"));
+	            startX = parseInt($(initObj.attendeeElement).css("left"));
+	            startY = parseInt($(initObj.attendeeElement).css("top"));
 
 	            // Get triangle sides to calculate direction
 	            catheterX = initObj.targetCoords.x - startX ;
@@ -338,7 +346,7 @@ define([
 				// Get length of hypotenuse (for calculating speed, or animation duration)
 	    		hypotenuse = Math.sqrt(catheterXLength * catheterXLength + catheterYLength * catheterYLength);
 
-	            // console.log('Sprite animation debug: \n - startX: ' + startX + ' x: ' + initObj.targetCoords.x + ' startY: ' + startY + ' y: ' + initObj.targetCoords.y + ' \n - catheterX: ' + catheterX + ' catheterY: ' + catheterY + ' \n - catheterXLength: ' + catheterXLength + ' catheterYLength: ' + catheterYLength + ' \n - Hypotenuse: ' + hypotenuse + ' Duration: ' + hypotenuse * msPerPixel);
+	           console.log('Sprite animation debug: \n - startX: ' + startX + ' x: ' + initObj.targetCoords.x + ' startY: ' + startY + ' y: ' + initObj.targetCoords.y + ' \n - catheterX: ' + catheterX + ' catheterY: ' + catheterY + ' \n - catheterXLength: ' + catheterXLength + ' catheterYLength: ' + catheterYLength + ' \n - Hypotenuse: ' + hypotenuse + ' Duration: ' + initObj.duration);
 
 	            // Check if animation should be left/right or up/down
 	            if(catheterYLength < catheterXLength ){
@@ -346,12 +354,12 @@ define([
 	                if(catheterXLength > 0.5){ //Threshold to prevent animation when avatar is just moving < .00001 steps
 	                    if(catheterX < 0){
 	                        // delta X is negative - moving left
-	                        window.animations['sprite_' + initObj.spriteID + '_anim'] = animateSprite('#sprite', walk.left /* Try dance.spinfast */, window.animations['sprite_' + initObj.spriteID + '_anim']);
-	                        // console.log("walk.left");
+	                        window.animations['sprite_' + $elem.attr('id') + '_anim'] = animateSprite($elem, walk.left /* Try dance.spinfast */, window.animations['sprite_' + $elem.attr('id') + '_anim']);
+	                        console.log("walk.left");
 	                    }else{
 	                        // moving right
-	                        window.animations['sprite_' + initObj.spriteID + '_anim'] = animateSprite('#sprite', walk.right, window.animations['sprite_' + initObj.spriteID + '_anim']);
-	                        // console.log("walk.right");
+	                        window.animations['sprite_' + $elem.attr('id') + '_anim'] = animateSprite($elem, walk.right, window.animations['sprite_' + $elem.attr('id') + '_anim']);
+	                        console.log("walk.right");
 	                    }
 	                }
 	            }else{
@@ -359,12 +367,12 @@ define([
 	                if(catheterYLength > 0.5){ //Threshold to prevent animation when avatar is just moving < .00001 steps
 	                    if(catheterY < 0){
 	                        // delta Y is negative - moving up
-	                        window.animations['sprite_' + initObj.spriteID + '_anim'] = animateSprite('#sprite', walk.up, window.animations['sprite_' + initObj.spriteID + '_anim']);
-	                        // console.log("walk.up");
+	                        window.animations['sprite_' + $elem.attr('id') + '_anim'] = animateSprite($elem, walk.up, window.animations['sprite_' + $elem.attr('id') + '_anim']);
+	                        console.log("walk.up");
 	                    }else{
 	                        // moving down
-	                        window.animations['sprite_' + initObj.spriteID + '_anim'] = animateSprite('#sprite', walk.down, window.animations['sprite_' + initObj.spriteID + '_anim']);
-	                        // console.log("walk.down");
+	                        window.animations['sprite_' + $elem.attr('id') + '_anim'] = animateSprite($elem, walk.down, window.animations['sprite_' + $elem.attr('id') + '_anim']);
+	                        console.log("walk.down");
 	                    }
 	                }
 	            }
@@ -373,10 +381,10 @@ define([
 	        // When we're done, stop and face the camera.
 	        // TODO: Maybe dance a bit instead of stopping?
 	        done: function(){
-	            window.animations['sprite_' + initObj.spriteID + '_anim'] = animateSprite('#sprite', stop.down /*Trye dance.spin*/, window.animations['sprite_' + initObj.spriteID + '_anim']);
+	            window.animations['sprite_' + $elem.attr('id') + '_anim'] = animateSprite($elem, stop.down /*Try dance.spin*/, window.animations['sprite_' + $elem.attr('id') + '_anim']);
 	        },
 	        easing: 'linear',
-	        duration: msPerPixel * hypotenuse
+	        duration: initObj.duration
 	    });
 	}
 	

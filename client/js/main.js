@@ -89,7 +89,7 @@ require([
     function elementOfAttendee(attendeeId) {
         var $element = $("#attendee" + attendeeId);
         if (!$element.length) {
-            $element = $('<img class="attendee" id="attendee' + attendeeId + '"></img>');
+            $element = $('<div class="attendee" id="attendee' + attendeeId + '"></div>');
             $("#attendeeContainer").append($element);
             console.log("YO!");
         }
@@ -115,7 +115,7 @@ require([
             });
 
             var duration = keyframe.time - lastKeyframeTime;
-
+/*
             $elem.animate({
                 left: projected.x,
                 top: projected.y
@@ -123,7 +123,6 @@ require([
                 duration: duration
             });
 
-            /*
               animate({
               spriteID: 'avatar',
               targetCoords: { x: projected.x, y: projected.y },
@@ -131,6 +130,14 @@ require([
               character: 13
               })
             */
+            
+            animate({
+                attendeeElement: $elem,
+                targetCoords: { x: projected.x, y: projected.y },
+                duration: duration
+            })
+            console.log('data.id: ' + data.id   )
+            
 
             lastKeyframeTime = keyframe.time;
         });
