@@ -134,7 +134,8 @@ require([
             animate({
                 attendeeElement: $elem,
                 targetCoords: { x: projected.x, y: projected.y },
-                duration: duration
+                duration: duration,
+                fbId: data.fbId
             })
             console.log('data.id: ' + data.id   )
             

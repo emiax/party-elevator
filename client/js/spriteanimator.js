@@ -23,76 +23,76 @@ define([
 
     var walk = {
         'up': [
-            {'state':1, 'flip': 0, 'x': 0, 'y': -10},
-            {'state':1, 'flip': 0, 'x': 0, 'y': -10},
-            {'state':4, 'flip': 0, 'x': 0, 'y': -10},
-            {'state':4, 'flip': 0, 'x': 0, 'y': -10},
-            {'state':1, 'flip': 1, 'x': 0, 'y': -10},
-            {'state':1, 'flip': 1, 'x': 0, 'y': -10},
-            {'state':4, 'flip': 1, 'x': 0, 'y': -10},
-            {'state':4, 'flip': 1, 'x': 0, 'y': -10},
-            {'state':1, 'flip': 0, 'x': 0, 'y': -10},
-            {'state':1, 'flip': 0, 'x': 0, 'y': -10},
-            {'state':4, 'flip': 0, 'x': 0, 'y': -10},
-            {'state':4, 'flip': 0, 'x': 0, 'y': -10},
-            {'state':1, 'flip': 1, 'x': 0, 'y': -10},
-            {'state':1, 'flip': 1, 'x': 0, 'y': -10},
-            {'state':4, 'flip': 1, 'x': 0, 'y': -10},
-            {'state':4, 'flip': 1, 'x': 0, 'y': -10}
+            {'state':1, 'flip': 0},
+            {'state':1, 'flip': 0},
+            {'state':4, 'flip': 0},
+            {'state':4, 'flip': 0},
+            {'state':1, 'flip': 1},
+            {'state':1, 'flip': 1},
+            {'state':4, 'flip': 1},
+            {'state':4, 'flip': 1},
+            {'state':1, 'flip': 0},
+            {'state':1, 'flip': 0},
+            {'state':4, 'flip': 0},
+            {'state':4, 'flip': 0},
+            {'state':1, 'flip': 1},
+            {'state':1, 'flip': 1},
+            {'state':4, 'flip': 1},
+            {'state':4, 'flip': 1}
         ],
         'right': [
-            {'state':2, 'flip': 1, 'x': 10, 'y': 0},
-            {'state':2, 'flip': 1, 'x': 10, 'y': 0},
-            {'state':5, 'flip': 1, 'x': 10, 'y': 0},
-            {'state':5, 'flip': 1, 'x': 10, 'y': 0},
-            {'state':2, 'flip': 1, 'x': 10, 'y': 0},
-            {'state':2, 'flip': 1, 'x': 10, 'y': 0},
-            {'state':5, 'flip': 1, 'x': 10, 'y': 0},
-            {'state':5, 'flip': 1, 'x': 10, 'y': 0},
-            {'state':2, 'flip': 1, 'x': 10, 'y': 0},
-            {'state':2, 'flip': 1, 'x': 10, 'y': 0},
-            {'state':5, 'flip': 1, 'x': 10, 'y': 0},
-            {'state':5, 'flip': 1, 'x': 10, 'y': 0},
-            {'state':2, 'flip': 1, 'x': 10, 'y': 0},
-            {'state':2, 'flip': 1, 'x': 10, 'y': 0},
-            {'state':5, 'flip': 1, 'x': 10, 'y': 0},
-            {'state':5, 'flip': 1, 'x': 10, 'y': 0}
+            {'state':2, 'flip': 1},
+            {'state':2, 'flip': 1},
+            {'state':5, 'flip': 1},
+            {'state':5, 'flip': 1},
+            {'state':2, 'flip': 1},
+            {'state':2, 'flip': 1},
+            {'state':5, 'flip': 1},
+            {'state':5, 'flip': 1},
+            {'state':2, 'flip': 1},
+            {'state':2, 'flip': 1},
+            {'state':5, 'flip': 1},
+            {'state':5, 'flip': 1},
+            {'state':2, 'flip': 1},
+            {'state':2, 'flip': 1},
+            {'state':5, 'flip': 1},
+            {'state':5, 'flip': 1}
         ],
         'down': [
-            {'state':0, 'flip': 0, 'x': 0, 'y': 10},
-            {'state':0, 'flip': 0, 'x': 0, 'y': 10},
-            {'state':3, 'flip': 0, 'x': 0, 'y': 10},
-            {'state':3, 'flip': 0, 'x': 0, 'y': 10},
-            {'state':0, 'flip': 1, 'x': 0, 'y': 10},
-            {'state':0, 'flip': 1, 'x': 0, 'y': 10},
-            {'state':3, 'flip': 1, 'x': 0, 'y': 10},
-            {'state':3, 'flip': 1, 'x': 0, 'y': 10},
-            {'state':0, 'flip': 0, 'x': 0, 'y': 10},
-            {'state':0, 'flip': 0, 'x': 0, 'y': 10},
-            {'state':3, 'flip': 0, 'x': 0, 'y': 10},
-            {'state':3, 'flip': 0, 'x': 0, 'y': 10},
-            {'state':0, 'flip': 1, 'x': 0, 'y': 10},
-            {'state':0, 'flip': 1, 'x': 0, 'y': 10},
-            {'state':3, 'flip': 1, 'x': 0, 'y': 10},
-            {'state':3, 'flip': 1, 'x': 0, 'y': 10}
+            {'state':0, 'flip': 0},
+            {'state':0, 'flip': 0},
+            {'state':3, 'flip': 0},
+            {'state':3, 'flip': 0},
+            {'state':0, 'flip': 1},
+            {'state':0, 'flip': 1},
+            {'state':3, 'flip': 1},
+            {'state':3, 'flip': 1},
+            {'state':0, 'flip': 0},
+            {'state':0, 'flip': 0},
+            {'state':3, 'flip': 0},
+            {'state':3, 'flip': 0},
+            {'state':0, 'flip': 1},
+            {'state':0, 'flip': 1},
+            {'state':3, 'flip': 1},
+            {'state':3, 'flip': 1}
         ],
         'left': [
-            {'state':2, 'flip': 0, 'x': -10, 'y': 0},
-            {'state':2, 'flip': 0, 'x': -10, 'y': 0},
-            {'state':5, 'flip': 0, 'x': -10, 'y': 0},
-            {'state':5, 'flip': 0, 'x': -10, 'y': 0},
-            {'state':2, 'flip': 0, 'x': -10, 'y': 0},
-            {'state':2, 'flip': 0, 'x': -10, 'y': 0},
-            {'state':5, 'flip': 0, 'x': -10, 'y': 0},
-            {'state':5, 'flip': 0, 'x': -10, 'y': 0},
-            {'state':2, 'flip': 0, 'x': -10, 'y': 0},
-            {'state':2, 'flip': 0, 'x': -10, 'y': 0},
-            {'state':5, 'flip': 0, 'x': -10, 'y': 0},
-            {'state':5, 'flip': 0, 'x': -10, 'y': 0},
-            {'state':2, 'flip': 0, 'x': -10, 'y': 0},
-            {'state':2, 'flip': 0, 'x': -10, 'y': 0},
-            {'state':5, 'flip': 0, 'x': -10, 'y': 0},
-            {'state':5, 'flip': 0, 'x': -10, 'y': 0}
+            {'state':2, 'flip': 0},
+            {'state':2, 'flip': 0},
+            {'state':5, 'flip': 0},
+            {'state':5, 'flip': 0},
+            {'state':2, 'flip': 0},
+            {'state':2, 'flip': 0},
+            {'state':5, 'flip': 0},
+            {'state':5, 'flip': 0},
+            {'state':2, 'flip': 0},
+            {'state':2, 'flip': 0},
+            {'state':5, 'flip': 0},
+            {'state':5, 'flip': 0},
+            {'state':2, 'flip': 0},
+            {'state':2, 'flip': 0},
+            {'state':5, 'flip': 0},
+            {'state':5, 'flip': 0}
         ],
     };
     var stop = {
@@ -146,20 +146,23 @@ define([
             {'state':2, 'flip': 0}
         ],
     }
-    var dance = {
-        'bobhead': [
+    var dance = [
+        // 'bobhead': 
+        [
             {'state':3, 'flip': 0},
             {'state':0, 'flip': 0},
             {'state':3, 'flip': 0},
             {'state':0, 'flip': 0},
         ],
-        'leftright': [
+        // 'leftright': 
+        [
             {'state':5, 'flip': 0},
             {'state':0, 'flip': 0},
             {'state':5, 'flip': 1},
             {'state':0, 'flip': 0},
         ],
-        'spin': [
+        // 'spin': 
+        [
             {'state':5, 'flip': 0},
             {'state':4, 'flip': 0},
             {'state':5, 'flip': 1},
@@ -171,7 +174,8 @@ define([
             {'state':3, 'flip': 1},
             {'state':3, 'flip': 1},
         ],
-        'spinfast': [
+        // 'spinfast': 
+        [
             {'state':5, 'flip': 0},
             {'state':4, 'flip': 0},
             {'state':5, 'flip': 1},
@@ -189,21 +193,22 @@ define([
             {'state':5, 'flip': 1},
             {'state':3, 'flip': 0},
         ],
-        'leftkick': [
+        // 'leftkick': 
+        [
             {'state':5, 'flip': 0},
             {'state':0, 'flip': 0},
             {'state':3, 'flip': 1},
             {'state':0, 'flip': 0},
         ]
-    };
+    ];
 
     // Negative offset to place sprite correctly over click-coordinate
-	var relx = -16;
-	var rely = -32;
+	var relx = -32;
+	var rely = -64;
 
-	var spriteSize = 32;
+	var spriteSize = 64;
 	function animateSprite(parentEl, frames, killAnimation){
-        var $spriteEl = $(parentEl).children().children('img');
+        var $spriteEl = $(parentEl).children().children('img.sprite');
 
 
 	    if(killAnimation !== undefined){
@@ -249,6 +254,31 @@ define([
 	                '-ms-filter': '"FlipH"'
 	            }).parent().css({'left': relx + 'px', 'top': rely + 'px'});
 	        }
+
+            // Animate fb image
+
+            if(state == 2 && flip == 0 || state == 5 && flip == 0){
+                // turn fb img left
+                $spriteEl.parent().find('img.fbImg').toggleClass('goleft', false).toggleClass('goright', false).toggleClass('goup', false).toggleClass('godown', false);
+                $spriteEl.parent().find('img.fbImg').toggleClass('goleft', true);
+            }
+            if(state == 2 && flip == 1 || state == 5 && flip == 1){
+                // turn fb img left
+                $spriteEl.parent().find('img.fbImg').toggleClass('goleft', false).toggleClass('goright', false).toggleClass('goup', false).toggleClass('godown', false);
+                $spriteEl.parent().find('img.fbImg').toggleClass('goright', true);
+            }
+            if(state == 0 || state == 3){
+                // turn fb img left
+                $spriteEl.parent().find('img.fbImg').toggleClass('goleft', false).toggleClass('goright', false).toggleClass('goup', false).toggleClass('godown', false);
+                $spriteEl.parent().find('img.fbImg').toggleClass('godown', true);
+            }
+            if(state == 1 || state == 4){
+                // turn fb img left
+                $spriteEl.parent().find('img.fbImg').toggleClass('goleft', false).toggleClass('goright', false).toggleClass('goup', false).toggleClass('godown', false);
+                $spriteEl.parent().find('img.fbImg').toggleClass('goup', true);
+            }
+
+
 	    }, 1000 / frames.length);
 	    
 	    return animation;
@@ -264,7 +294,8 @@ define([
         // Insert sprite if it is missing
         var $elem = initObj.attendeeElement;
         if($elem.html() == ''){
-            $elem.html('<div class="sprite-wrap"><img id="sprite" src="img/sprites64.png" alt=""></div>'); 
+            var img_link = "http://graph.facebook.com/" + initObj.fbId + "/picture";
+            $elem.html('<div class="sprite-wrap"><img class="sprite" src="img/sprites64.png" alt=""><img src="' + img_link + '" class="fbImg" alt=""></div>'); 
         }
 
         // character = initObj.character;
@@ -355,10 +386,18 @@ define([
 	                    if(catheterX < 0){
 	                        // delta X is negative - moving left
 	                        window.animations['sprite_' + $elem.attr('id') + '_anim'] = animateSprite($elem, walk.left /* Try dance.spinfast */, window.animations['sprite_' + $elem.attr('id') + '_anim']);
-	                        console.log("walk.left");
+	                        
+                            // turn fb img left
+                            $elem.find('img.fbImg').toggleClass('goleft', true);
+
+                            console.log("walk.left");
 	                    }else{
 	                        // moving right
 	                        window.animations['sprite_' + $elem.attr('id') + '_anim'] = animateSprite($elem, walk.right, window.animations['sprite_' + $elem.attr('id') + '_anim']);
+                            
+                            // turn fb img left
+                            $elem.find('img.fbImg').toggleClass('goright', true);
+
 	                        console.log("walk.right");
 	                    }
 	                }
@@ -368,10 +407,18 @@ define([
 	                    if(catheterY < 0){
 	                        // delta Y is negative - moving up
 	                        window.animations['sprite_' + $elem.attr('id') + '_anim'] = animateSprite($elem, walk.up, window.animations['sprite_' + $elem.attr('id') + '_anim']);
+                            
+                            // turn fb img left
+                            $elem.find('img.fbImg').toggleClass('goup', true);
+
 	                        console.log("walk.up");
 	                    }else{
 	                        // moving down
 	                        window.animations['sprite_' + $elem.attr('id') + '_anim'] = animateSprite($elem, walk.down, window.animations['sprite_' + $elem.attr('id') + '_anim']);
+                            
+                            // turn fb img left
+                            $elem.find('img.fbImg').toggleClass('godown', true);
+
 	                        console.log("walk.down");
 	                    }
 	                }
@@ -381,7 +428,11 @@ define([
 	        // When we're done, stop and face the camera.
 	        // TODO: Maybe dance a bit instead of stopping?
 	        done: function(){
-	            window.animations['sprite_' + $elem.attr('id') + '_anim'] = animateSprite($elem, stop.down /*Try dance.spin*/, window.animations['sprite_' + $elem.attr('id') + '_anim']);
+	            window.animations['sprite_' + $elem.attr('id') + '_anim'] = animateSprite($elem, /*stop.down Try*/ dance[0], window.animations['sprite_' + $elem.attr('id') + '_anim']);
+                
+                // turn fb img left
+                $elem.find('img.fbImg').toggleClass('goleft', false).toggleClass('goright', false).toggleClass('goup', false).toggleClass('godown', false);
+
 	        },
 	        easing: 'linear',
 	        duration: initObj.duration
