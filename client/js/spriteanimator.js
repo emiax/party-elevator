@@ -228,12 +228,24 @@ define([
 	    var catheterX = initObj.targetCoords.x - startX ;
 	    var catheterY = initObj.targetCoords.y - startY ;
 
+		// Get the distance in X- and Y-directions to select animation (left/right or up/down)
+        var catheterXLength = catheterX;
+        var catheterYLength = catheterY;
+
+        // If moving up or left we need to invert the catheter length
+        if(catheterX < 0){
+            catheterXLength = catheterX * -1;
+        }
+        if(catheterY < 0){
+            catheterYLength = catheterY * -1;
+        }
+
 	    // Get length of hypotenuse (for calculating speed, or animation duration)
-	    var hypotenuse = Math.sqrt(catheterX * catheterX + catheterY * catheterY);
+	    var hypotenuse = Math.sqrt(catheterXLength * catheterXLength + catheterYLength * catheterYLength);
 
 	    // Define speed. Lower is faster
 	    var msPerPixel = 5;
-	    
+
 	    // Dirty stuff:
 	    // To be able to remove the setInterval for an animation, we need to store it in a global object.
 	    // For now, i'm using the window.
@@ -259,8 +271,8 @@ define([
 	            catheterY = initObj.targetCoords.y - startY ;
 
 	            // Get the distance in X- and Y-directions to select animation (left/right or up/down)
-	            var catheterXLength = catheterX;
-	            var catheterYLength = catheterY;
+	            catheterXLength = catheterX;
+	            catheterYLength = catheterY;
 
 	            // If moving up or left we need to invert the catheter length
 	            if(catheterX < 0){
@@ -269,8 +281,11 @@ define([
 	            if(catheterY < 0){
 	                catheterYLength = catheterY * -1;
 	            }
+				
+				// Get length of hypotenuse (for calculating speed, or animation duration)
+	    		hypotenuse = Math.sqrt(catheterXLength * catheterXLength + catheterYLength * catheterYLength);
 
-	            console.log(' startX: ' + startX + ' x: ' + initObj.targetCoords.x + ' startY: ' + startY + ' y: ' + initObj.targetCoords.y + ' \ncatheterX: ' + catheterX + ' catheterY: ' + catheterY + ' catheterXLength: ' + catheterXLength + ' catheterYLength: ' + catheterYLength );
+	            // console.log('Sprite animation debug: \n - startX: ' + startX + ' x: ' + initObj.targetCoords.x + ' startY: ' + startY + ' y: ' + initObj.targetCoords.y + ' \n - catheterX: ' + catheterX + ' catheterY: ' + catheterY + ' \n - catheterXLength: ' + catheterXLength + ' catheterYLength: ' + catheterYLength + ' \n - Hypotenuse: ' + hypotenuse + ' Duration: ' + hypotenuse * msPerPixel);
 
 	            // Check if animation should be left/right or up/down
 	            if(catheterYLength < catheterXLength ){
@@ -279,11 +294,11 @@ define([
 	                    if(catheterX < 0){
 	                        // delta X is negative - moving left
 	                        window.animations['sprite_' + initObj.spriteID + '_anim'] = animateSprite('#sprite', walk.left, window.animations['sprite_' + initObj.spriteID + '_anim']);
-	                        console.log("walk.left");
+	                        // console.log("walk.left");
 	                    }else{
 	                        // moving right
 	                        window.animations['sprite_' + initObj.spriteID + '_anim'] = animateSprite('#sprite', walk.right, window.animations['sprite_' + initObj.spriteID + '_anim']);
-	                        console.log("walk.right");
+	                        // console.log("walk.right");
 	                    }
 	                }
 	            }else{
@@ -292,11 +307,11 @@ define([
 	                    if(catheterY < 0){
 	                        // delta Y is negative - moving up
 	                        window.animations['sprite_' + initObj.spriteID + '_anim'] = animateSprite('#sprite', walk.up, window.animations['sprite_' + initObj.spriteID + '_anim']);
-	                        console.log("walk.up");
+	                        // console.log("walk.up");
 	                    }else{
 	                        // moving down
 	                        window.animations['sprite_' + initObj.spriteID + '_anim'] = animateSprite('#sprite', walk.down, window.animations['sprite_' + initObj.spriteID + '_anim']);
-	                        console.log("walk.down");
+	                        // console.log("walk.down");
 	                    }
 	                }
 	            }
