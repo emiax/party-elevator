@@ -17,7 +17,7 @@ Keyframe.prototype.toString = function () {
 Keyframe.prototype.toClientFormat = function () {
     return {
         state: this._state.toClientFormat(),
-        time: this._time
+        time: this._time.getTime()
     };
 }
 

@@ -4,11 +4,37 @@
   <meta charset="utf-8">
   <title>Party elevator</title>
   <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <style>
+
+    #avatar {
+      background: #ff0000;
+      padding: 0;
+    }
+    #spritetest {
+      width: 32px;
+      height: 32px; /* 720px; */
+      top: -16px;
+      left:-16px;
+      position: relative;
+      overflow: hidden;
+    }
+    #spritetest img {
+      position: absolute;
+      top: -128px;
+      left: 0;
+      width: 192px;
+    }
+  </style>
 </head>
 <body>
   <script src="bower_components/requirejs/require.js" data-main="js/main.js"></script>
-  <div id="map"></div>
-  <canvas width="614" height="653" id="canvas"></canvas>
-  <div id="avatar"></div>
+  <div class="wrapper">
+    <div id="map"></div>
+    <canvas width="1000" height="500" id="canvas"></canvas>
+    <div id="attendeeContainer">
+      <!-- Attendees will spawn here. -->
+    </div>
+  </div>
 </body>
 </html>
