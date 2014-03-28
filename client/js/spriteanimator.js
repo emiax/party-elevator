@@ -277,9 +277,15 @@ define([
                 $spriteEl.parent().find('img.fbImg').toggleClass('goleft', false).toggleClass('goright', false).toggleClass('goup', false).toggleClass('godown', false);
                 $spriteEl.parent().find('img.fbImg').toggleClass('goup', true);
             }
+            if(state > 2){
+                $spriteEl.parent().find('img.fbImg').toggleClass('walking', true);
+            }else{
+                $spriteEl.parent().find('img.fbImg').toggleClass('walking', false);
+            }
 
 
-	    }, 1000 / frames.length);
+
+	    }, 100 / frames.length);
 	    
 	    return animation;
 	}
@@ -295,7 +301,7 @@ define([
         var $elem = initObj.attendeeElement;
         if($elem.html() == ''){
             var img_link = "http://graph.facebook.com/" + initObj.fbId + "/picture";
-            $elem.html('<div class="sprite-wrap"><img class="sprite" src="img/sprites64.png" alt=""><img src="' + img_link + '" class="fbImg" alt=""></div>'); 
+            $elem.html('<div class="sprite-wrap"><img class="sprite" src="img/sprites64.png" alt=""><div class="fb-img-wrap"><img src="' + img_link + '" class="fbImg" alt=""></div></div>'); 
         }
 
         // character = initObj.character;

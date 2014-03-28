@@ -57,23 +57,30 @@ img.sprite {
 img.fbImg {
     z-index: 20;
     position: absolute;
-    top: 0;
+    top: 2px;
     left: 12px;
     width: 40px;
+    border-radius: 20px;
+}
+img.fbImg.goleft,
+img.fbImg.goright {
+    width: 20px;
+    height: 40px;
+    border-radius: 20px/40px;
 }
 img.fbImg.goleft {
-    left: 0px;
-    width: 20px;
-    height: 40px;
+    left: 12px;
 }
 img.fbImg.goright {
-    left: 44px;
-    width: 20px;
-    height: 40px;
+    left: 32px;
 }
 img.fbImg.goup {
     display: none;
 }
 img.fbImg.godown {
+
+}
+img.fbImg.walking {
+    top: 6px;
 
 }
