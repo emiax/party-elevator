@@ -199,6 +199,13 @@ define([
             {'state':0, 'flip': 0},
             {'state':3, 'flip': 1},
             {'state':0, 'flip': 0},
+        ],
+        // 'rightkick': 
+        [
+            {'state':5, 'flip': 1},
+            {'state':0, 'flip': 1},
+            {'state':3, 'flip': 0},
+            {'state':0, 'flip': 1},
         ]
     ];
 
@@ -434,7 +441,7 @@ define([
 	        // When we're done, stop and face the camera.
 	        // TODO: Maybe dance a bit instead of stopping?
 	        done: function(){
-	            window.animations['sprite_' + $elem.attr('id') + '_anim'] = animateSprite($elem, /*stop.down Try*/ dance[0], window.animations['sprite_' + $elem.attr('id') + '_anim']);
+	            window.animations['sprite_' + $elem.attr('id') + '_anim'] = animateSprite($elem, /*stop.down Try*/ dance[Math.round(Math.random()*5)], window.animations['sprite_' + $elem.attr('id') + '_anim']);
                 
                 // turn fb img left
                 $elem.find('img.fbImg').toggleClass('goleft', false).toggleClass('goright', false).toggleClass('goup', false).toggleClass('godown', false);
