@@ -123,36 +123,50 @@ canvas {
 }
 
 .sprite-wrap {
-    width: 32px;
-    height: 32px; /* 720px; */
-    top: -16px;
-    left:-16px;
+    width: 64px;
+    height: 64px; /* 720px; */
+    top: -32px;
+    left:-32px;
     position: relative;
     overflow: hidden;
 }
 .sprite-wrap img {
     position: absolute;
-    top: -128px;
+    top: -256px;
     left: 0;
-    width: 192px;
+    width: 384px;
 }
 
+img.sprite {
+    z-index: 10;
+}
+img.fbImg {
+    z-index: 20;
+    position: absolute;
+    top: 2px;
+    left: 12px;
+    width: 40px;
+    border-radius: 20px;
+}
+img.fbImg.goleft,
+img.fbImg.goright {
+    width: 20px;
+    height: 40px;
+    border-radius: 20px/40px;
+}
+img.fbImg.goleft {
+    left: 12px;
+}
+img.fbImg.goright {
+    left: 32px;
+}
+img.fbImg.goup {
+    display: none;
+}
+img.fbImg.godown {
 
-    #avatar {
-      background: #ff0000;
-      padding: 0;
-    }
-    #spritetest {
-      width: 32px;
-      height: 32px; /* 720px; */
-      top: -16px;
-      left:-16px;
-      position: relative;
-      overflow: hidden;
-    }
-    #spritetest img {
-      position: absolute;
-      top: -128px;
-      left: 0;
-      width: 192px;
-    }
+}
+img.fbImg.walking {
+    top: 6px;
+
+}
