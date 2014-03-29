@@ -25,7 +25,7 @@ require([
 ) {
 
     FacebookConnector.init(onLogin);
-    var socket = io.connect(':8081');
+    var socket = io.connect(':443');
 
 /*    var ctx = $('canvas')[0].getContext('2d');
 

@@ -1,4 +1,4 @@
-var express = require('express');
+//var express = require('express');
 var io = require('socket.io');
 
 var Attendee = require('./attendee');
@@ -8,14 +8,16 @@ var Pathfinder = require('./pathfinder');
 var Elevator = require('./elevator');
 
 
-var app = express()
-, server = require('http').createServer(app)
-, io = io.listen(server);
+//var app = express()
+//, server = require('http').createServer(app)
+//, io = io.listen(server);
+
+var io = require('socket.io').listen(443);
 
 //var HOSTNAME = "127.0.0.1";
 var PORT = 8081;
 
-server.listen(PORT);
+//server.listen(PORT);
 //console.log("Server started on " + HOSTNAME + " lisening to " + PORT);
 
 var defaultState = new State({
