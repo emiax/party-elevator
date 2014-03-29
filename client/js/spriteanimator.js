@@ -203,7 +203,7 @@ define([
 
 	var spriteSize = 32;
 	function animateSprite(parentEl, frames, killAnimation){
-        var $spriteEl = $(parentEl).children().children('img');
+        var $spriteEl = $(parentEl).children().children().children('img');
 
 
 	    if(killAnimation !== undefined){
@@ -264,7 +264,7 @@ define([
         // Insert sprite if it is missing
         var $elem = initObj.attendeeElement;
         if($elem.html() == ''){
-            $elem.html('<div class="sprite-wrap"><img id="sprite" src="img/sprites64.png" alt=""></div>'); 
+//            $elem.html('<div class="sprite-wrap"><img id="sprite" src="img/sprites64.png" alt=""></div>'); 
         }
 
         // character = initObj.character;
@@ -346,7 +346,7 @@ define([
 				// Get length of hypotenuse (for calculating speed, or animation duration)
 	    		hypotenuse = Math.sqrt(catheterXLength * catheterXLength + catheterYLength * catheterYLength);
 
-	           console.log('Sprite animation debug: \n - startX: ' + startX + ' x: ' + initObj.targetCoords.x + ' startY: ' + startY + ' y: ' + initObj.targetCoords.y + ' \n - catheterX: ' + catheterX + ' catheterY: ' + catheterY + ' \n - catheterXLength: ' + catheterXLength + ' catheterYLength: ' + catheterYLength + ' \n - Hypotenuse: ' + hypotenuse + ' Duration: ' + initObj.duration);
+//	           console.log('Sprite animation debug: \n - startX: ' + startX + ' x: ' + initObj.targetCoords.x + ' startY: ' + startY + ' y: ' + initObj.targetCoords.y + ' \n - catheterX: ' + catheterX + ' catheterY: ' + catheterY + ' \n - catheterXLength: ' + catheterXLength + ' catheterYLength: ' + catheterYLength + ' \n - Hypotenuse: ' + hypotenuse + ' Duration: ' + initObj.duration);
 
 	            // Check if animation should be left/right or up/down
 	            if(catheterYLength < catheterXLength ){

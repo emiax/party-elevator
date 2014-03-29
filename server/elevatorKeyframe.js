@@ -1,6 +1,10 @@
-function ElevatorKeyframe(time, floor) {
+var State = require('./state');
+
+
+function ElevatorKeyframe(level, time, type) {
     this._time = time;
-    this._floor = floor;
+    this._level = level;
+    this._type = type;
 }
 
 
@@ -8,14 +12,39 @@ function ElevatorKeyframe(time, floor) {
  * To string
  */
 ElevatorKeyframe.prototype.toString = function () {
-    return "{ ElevatorKeyframe: " + this._floor + "}";
+    return "{ ElevatorKeyframe: " + this._level + "}";
+}
+
+
+/**
+ * Return level.
+ */
+ElevatorKeyframe.prototype.level = function () {
+    return this._level;
+}
+
+
+/**
+ * Return type.
+ */
+ElevatorKeyframe.prototype.type = function () {
+    return this._type;
+}
+
+
+/**
+ * Return time.
+ */
+ElevatorKeyframe.prototype.time = function () {
+    return this._time;
 }
 
 
 ElevatorKeyframe.prototype.toClientFormat = function () {
     return {
-        floor: this._floor,
-        time: this._time
+        level: this._level === State.LevelEnum.TOP ? 'top' : 'ground',
+        time: this._time.getTime(),
+        type: this._type
     };
 }
 
@@ -24,6 +53,14 @@ ElevatorKeyframe.prototype.toClientFormat = function () {
  */
 ElevatorKeyframe.prototype.hasOccured = function () {
     return this._time <= new Date();
+}
+
+
+/**
+ * Return true if this keyframe is after another keyframe.
+ */
+ElevatorKeyframe.prototype.isAfter = function (time) {
+    return this._time.getTime() > time.getTime();
 }
 
 

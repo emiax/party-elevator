@@ -24,22 +24,10 @@ require([
     animate
 ) {
 
-    // Here we run a very simple test of the Graph API after login is successful.
-    // This testAPI() function is only called in those cases.
-    /*    function testAPI() {
-          console.log('Welcome!  Fetching your information.... ');
-          FB.api('/me', function(response) {
-          console.log('Good to see you, ' + response.name + '.');
-          console.log(response);
-          var img_link = "http://graph.facebook.com/"+response.id+"/picture";
-          $("#placeholder").append($('<img src="' + img_link + '"/>'));
-          });
-          }*/
-
     FacebookConnector.init(onLogin);
     var socket = io.connect(':8081');
 
-    var ctx = $('canvas')[0].getContext('2d');
+/*    var ctx = $('canvas')[0].getContext('2d');
 
     function drawKeyframes(keyframes) {
         ctx.strokeStyle = "rgba(255, 0, 0, 1)";
@@ -64,7 +52,6 @@ require([
             };
             var projected = Projector.project(pos);
 
-            //        console.log(x, y);
             ctx.lineTo(projected.x, projected.y);
         });
         ctx.stroke();
@@ -84,12 +71,17 @@ require([
         ctx.stroke();
         ctx.fill();
     }
-
+*/
 
     function elementOfAttendee(attendeeId) {
         var $element = $("#attendee" + attendeeId);
+        //var imgLink = "http://graph.facebook.com/"+ attendee.id +"/picture";
+
         if (!$element.length) {
-            $element = $('<div class="attendee" id="attendee' + attendeeId + '"></div>');
+            $element = $('<div class="attendee" id="attendee' + attendeeId + '"><div class="insideElevator personalElevator">' +
+                         '<div class="messageContainer"></div>' + 
+                         '<img class="profilePic" src="sprite.png"/>' + 
+                         '</div></div>');
             $("#attendeeContainer").append($element);
             console.log("YO!");
         }
@@ -97,15 +89,58 @@ require([
     }
 
 
+    function serverTime() {
+        return new Date().getTime() - timeOffset;
+    }
+    
+    
+    function updateElevator(data) {
+//        console.log("ELEVATOR DATA", data);
+        var $elem = $('#elevator');
+        $elem.stop(true);
+        
+        var st = serverTime();
+        var previousKeyframeIndex = 0;
+        data.keyframes.forEach(function (keyframe, i) {
+            if (keyframe.time < st) {
+                previousKeyframeIndex = i;
+            }
+        });
+        
+        var lastKeyframeTime = st;
+        for (var i = previousKeyframeIndex + 1; i < data.keyframes.length; i++) {
+            var keyframe = data.keyframes[i];
+            var duration = keyframe.time - lastKeyframeTime;
+            var y = keyframe.level === 'top' ? 0 : 350;
+
+            $elem.animate({
+                top: y
+            }, {
+                easing: 'linear',
+                duration: duration,
+                step: function () {
+                    var top = $elem.css('top');
+                    $('.insideElevator').css({
+                        top: top
+                    });
+                }
+            });
+            lastKeyframeTime = keyframe.time;
+        }
+    }
+
+
     function updateAttendee(data) {
         var $elem = elementOfAttendee(data.id);
         $elem.stop(true);
 
-
         var fbId = data.fbId;
-        $elem.attr('src', "http://graph.facebook.com/" + fbId + "/picture");
+        $elem.children().children('img').attr('src', "http://graph.facebook.com/" + fbId + "/picture");
+//        console.log("SSJD");
+        
+        var now = serverTime();
+        var lastKeyframeTime = now;
 
-        var lastKeyframeTime = new Date().getTime() - timeOffset;
         data.keyframes.forEach(function (keyframe) {
             var x = keyframe.state.x;
             var y = keyframe.state.y;
@@ -131,15 +166,39 @@ require([
               })
             */
             
-            animate({
-                attendeeElement: $elem,
-                targetCoords: { x: projected.x, y: projected.y },
-                duration: duration
-            })
-            console.log('data.id: ' + data.id   )
-            
 
-            lastKeyframeTime = keyframe.time;
+            $elem.animate({
+                left: projected.x,
+                top: projected.y
+            }, {
+                duration: duration,
+                complete: function () {
+                    console.log(keyframe.state.level);
+                    
+                    if (keyframe.state.level === 'elevator') {
+//                        console.log("YO");
+                        $elem.children('.personalElevator').addClass('insideElevator');
+                    } else {
+                        $elem.children('.personalElevator').removeClass('insideElevator');
+                    } 
+                    if (keyframe.state.level === 'ground') {
+                        $elem.children('.personalElevator').css('top', 350);
+                    }
+                    
+                    if (keyframe.state.level === 'top') {
+                        $elem.children('.personalElevator').css('top', 0);
+                    }
+                }
+            });
+                
+            /*animate({
+                    attendeeElement: $elem,
+                    targetCoords: { x: projected.x, y: projected.y },
+                    duration: duration
+            });*/
+                
+                lastKeyframeTime = keyframe.time;
+            //}
         });
     }
     
@@ -159,26 +218,71 @@ require([
 
     }
 
+    
+    function chatMessage($elem, message) {
+        var $message = $('<div class="chatMessage">' + message + '</div>');
+        $elem.children().children('.messageContainer').append($message);
+
+        $message.css({
+            left: -$message.width()/2
+        });
+        
+        $message.animate({
+            opacity: 0
+        }, {
+            duration: 5000,
+            delay: 3000,
+            done: function () {
+                $message.remove();
+            }
+        });
+    }
+    
+
     function init() {
         $("#chat").submit(function (evt) {
             var message = $("#chatMessage").val();
-            socket.emit('chat', message)
+            socket.emit('chat', message);
+            $("#chatMessage").val('');
             evt.preventDefault();
         });
 
         socket.on('chat', function (data) {
             var attendeeId = data.attendee;
             var message = data.message;
-            console.log(message);
+            var $elem = elementOfAttendee(attendeeId);
+            chatMessage($elem, message);
         });
 
         socket.on('connect', function () {
             console.log("socket connected");
 
-            $('#map').click(function (evt) {
+            
+            $('#topFloor').click(function (evt) {
+                var x = evt.pageX - $(this).offset().left;
+                var y = evt.pageY - $(this).offset().top;
+
+                console.log(x, y);
                 var projected = {
-                    x: evt.offsetX,
-                    y: evt.offsetY
+                    x: x,
+                    y: y
+                };
+
+                var pos = Projector.unproject(projected);
+                socket.emit('intention', {
+                    x: pos.x,
+                    y: pos.y,
+                    level: 'top'
+                });
+            });
+            
+            $('#groundFloor').click(function (evt) {
+                var x = evt.pageX - $(this).offset().left;
+                var y = evt.pageY - $(this).offset().top;
+
+                var projected = {
+                    x: x,
+                    y: y
                 };
 
                 var pos = Projector.unproject(projected);
@@ -190,18 +294,22 @@ require([
             });
 
 
-            socket.on('drawTriangles', function (triangles) {
+/*            socket.on('drawTriangles', function (triangles) {
                 ctx.clearRect(0, 0, 1000, 1000);
                 triangles.forEach(function (tri, i) {
                     drawTriangle(Projector.project(tri.p0), Projector.project(tri.p1), Projector.project(tri.p2), i);
                 });
-            });
+            });*/
 
 
             socket.on('attendeeKeyframes', function (data) {
                 console.log("data", data);
-                drawKeyframes(data.keyframes);
+                //drawKeyframes(data.keyframes);
                 updateAttendee(data);
+            });
+
+            socket.on('elevatorKeyframes', function (data) {
+                updateElevator(data);
             });
 
             socket.on('all', function (data) {

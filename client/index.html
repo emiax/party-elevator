@@ -7,17 +7,20 @@
   <script src="bower_components/requirejs/require.js" data-main="js/main.js"></script>
 </head>
 <body>
-  <fb:login-button show-faces="true" width="200" max-rows="1" ></fb:login-button>
+
+  <!--<canvas width="1000" height="500"></canvas>-->
   <div class="wrapper">
-    <div id="map"></div>
-    <canvas width="1000" height="500" id="canvas"></canvas>
+    <div id="topFloor"></div>
+    <div id="groundFloor"></div>
+    <div id="elevatorContainer"><div id="elevator"></div></div>
     <div id="attendeeContainer">
       <!-- Attendees will spawn here. -->
     </div>
+    <div id="fbIntegration"><fb:login-button show-faces="true" width="200" max-rows="1" ></fb:login-button></div>
   </div>
 
   <form id="chat">
-    <input name="chatMessage" id="chatMessage"/>
+    <input placeholder="Chatta lite." name="chatMessage" id="chatMessage"/>
     <input type="submit"/>
   </form>
 </body>

@@ -2,9 +2,10 @@ var Triangle = new require('./triangle');
 var Vector = new require('./vector');
 
 
-var Graph = function (triangles) {
+var Graph = function (triangles, portalPoint) {
 
     this._triangles = triangles;
+    this._portalPoint = portalPoint;
 
     var edgeToTriangles = {};
     triangles.forEach(function (t) {
@@ -41,6 +42,7 @@ var Graph = function (triangles) {
 }
 
 
+
 /**
  * Find containing triangle
  * @param {Vector p}
@@ -57,6 +59,17 @@ Graph.prototype.containingTriangle = function (p) {
 }
 
 
+Graph.prototype.shortestPathToPortalPoint = function (p0) {
+    return this.shortestPath(p0, this._portalPoint);
+}
+
+
+Graph.prototype.shortestPathFromPortalPoint = function (p1) {
+    return this.shortestPath(this._portalPoint, p1);
+}
+
+
+
 /**
  * Find the shortest path from p0 to p1.
  * @param {Vector} p0
@@ -66,13 +79,17 @@ Graph.prototype.shortestPath = function (p0, p1) {
      var t0 = this.containingTriangle(p0);
      var t1 = this.containingTriangle(p1);
 
-     if (!t0 || !t1) {
+     if (!t0) {
          return null;
      }
+    
+    if (!t1) {
+        return [p0];
+    }
 
      var diagonals = t0.shortestPathToTriangle(t1);
      if (!diagonals) {
-         return null;
+         return [p0];
      }
      
      if (diagonals.length === 0) {

@@ -5,6 +5,8 @@ var Attendee = require('./attendee');
 var State = require('./state');
 var party = require('./party');
 var Pathfinder = require('./pathfinder');
+var Elevator = require('./elevator');
+
 
 var app = express()
 , server = require('http').createServer(app)
@@ -33,11 +35,12 @@ Pathfinder.loadMap(function () {
         sockets[socketId] = socket;
 
         socket.emit('all', party.allToClientFormat());
+        socket.emit('elevatorKeyframes', Elevator.toClientFormat());
+        
 
         socket.emit('sync', (new Date()).getTime());
 
         socket.on('login', function (facebookData) {
-            console.log("LOGIN");
             var attendee = fbIdToAttendee[facebookData.id];
             if (!attendee) {
                 attendee = new Attendee(defaultState);
@@ -46,7 +49,7 @@ Pathfinder.loadMap(function () {
             }
             attendee.setFacebookData(facebookData);
             socketToFbId[socketId] = facebookData.id;
-            console.log(attendee);
+            socket.emit('all', party.allToClientFormat());
         });
 
         socket.on('chat', function (data) {
@@ -77,11 +80,13 @@ Pathfinder.loadMap(function () {
             var y = data.y;
             var level;
             switch (data.level) {
-            case 'top': level = State.LevelEnum.TOP;
-            case 'elevator': level = State.LevelEnum.ELEVATOR;
+            case 'top': level = State.LevelEnum.TOP; break;
+            case 'elevator': level = State.LevelEnum.ELEVATOR; break;
             default: level = State.LevelEnum.GROUND;
             }
 
+            console.log(data.level);
+            
             party.setIntention(attendee, new State({
                 x: x,
                 y: y,
@@ -92,14 +97,13 @@ Pathfinder.loadMap(function () {
             Object.keys(sockets).forEach(function (outSocketId) {
                 var outputSocket = sockets[outSocketId];
                 var tris = [];
-                Pathfinder.triangles().forEach(function (tri) {
+                Pathfinder.triangles(State.LevelEnum.GROUND).forEach(function (tri) {
                     tris.push(tri.toClientFormat());
                 });
-//                outputSocket.emit('drawTriangles', tris);
-
-                console.log("lOL!");
+                outputSocket.emit('drawTriangles', tris);
+                
                 outputSocket.emit('attendeeKeyframes', attendee.toClientFormat());
-
+                outputSocket.emit('elevatorKeyframes', Elevator.toClientFormat());
             })
         });
     });

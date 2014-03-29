@@ -1,16 +1,79 @@
+input {
+    height: 30px;
+    background-color: #43301e;
+    border: none;
+    color: #fff;
+    padding-left: 10px;
+}
+
+
 html, body {
     margin: 0;
     padding: 0;
     background-color: #fff;
     text-align: center;
+    background-image: url('../img/background.png');
+    background-position: center top;
+    font: 14px Arial;
+}
+
+#elevatorContainer {
+    position: absolute;
+    left: 855px;
+    top: 548px;
 }
 
 
-#map {
+#fbIntegration  {
+    position: absolute;
+    top: 20px;
+    width: 1000px;
+    text-align: left;
+    
+}
+
+.chatMessage {
+    margin: 10px;
+    padding: 3px;
+    border-radius: 2px;
+    background-color: #000;
+    color: #fff;
+
+}
+
+.attendee {
+    text-align: center;
+}
+
+.messageContainer {
+    position: absolute;
+    bottom: 30px;
+    z-index: 10;
+}
+
+#topFloor {
     position: absolute;
     width: 1000px;
     height: 500px;
-    background-image: url('../img/salongerna.png');
+    background-image: url('../img/topFloor.png');
+    top: 298px;
+    z-index: 2;
+}
+
+#groundFloor {
+    position: absolute;
+    width: 1000px;
+    height: 500px;
+    top: 648px;
+    z-index: 1;
+
+}
+
+.profilePic {
+    position: absolute;
+    top: -40px;
+    left: -20px;
+    z-index: 3;
 }
 
 .attendee {
@@ -24,6 +87,29 @@ html, body {
     background-color: #f00;
               
 }
+
+
+#attendeeContainer {
+    position: absolute;
+    top: 298px;
+                 
+}
+
+.personalElevator {
+    position: absolute;
+}
+
+
+#elevator {
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 100px;
+    height: 10px;
+    background-color: #432F1E;
+    z-index: 3;
+}
+
 
 canvas {
     width: 1000;
